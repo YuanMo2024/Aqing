@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>阿晴计算器</title>
+    <link rel="icon" type="image/x-icon" href="./image/keqing.ico" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/aqing.css" />
+    <link rel="stylesheet" type="text/css" href="./css/media.css" />
+  </head>
+  <body>
+    <!-- 固定区 -->
+    <div id="aqingball" class="Button shadow buttonIcon">
+      <img src="./image/keqing.png" class="buttonIcon" />
+    </div>
+    <!-- 标题栏 -->
+    <div id="headbox">
+      <div id="titlebox" class="shadow">
+        <!-- 阿晴悬浮球 -->
+        <!-- <div id="aqingball" class="Button shadow buttonIcon">
+          <img src="./image/keqing.png" class="buttonIcon" />
+        </div> -->
+        <div id="titlebox0">
+          <div id="tl">
+            <div id="tlButton" class="Button shadow">
+              <img src="./image/keqing.png" class="buttonIcon" />
+            </div>
+          </div>
+          <div id="tm">阿晴计算器</div>
+          <div id="tr">
+            <div id="trButton" class="Button">
+              <img src="./image/1.png" class="buttonIcon" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 菜单栏 -->
+    <div id="menuground">
+      <div id="menu" class="shadow">
+        <!-- 页面设置 -->
+        <div id="menu0" class="daohang" onclick="F0()">
+          <img src="./image/hutao.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">设置</div>
+        </div>
+        <!-- 米游社wiki -->
+        <div id="menu1" class="daohang" onclick="F1()">
+          <img src="./image/ganyu.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">米游社wiki</div>
+        </div>
+        <!-- 添加优选方案 -->
+        <div id="menu2" class="daohang" onclick="F2()">
+          <img src="./image/naxida.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">+ 优选方案</div>
+        </div>
+        <!-- 添加自选方案 -->
+        <div id="menu3" class="daohang" onclick="F3()">
+          <img src="./image/xiaogong.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">+ 自选方案</div>
+        </div>
+        <!-- 录入角色 -->
+        <div id="menu4" class="daohang" onclick="F4()">
+          <img src="./image/linghua.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">录入角色</div>
+        </div>
+        <!-- 录入武器 -->
+        <div id="menu5" class="daohang" onclick="F5()">
+          <img src="./image/ying.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">录入武器</div>
+        </div>
+        <!-- 录入圣遗物 -->
+        <div id="menu6" class="daohang" onclick="F6()">
+          <img src="./image/wanye.png" class="buttonIcon" />
+          <div style="margin-left: 1.5vh">录入圣遗物</div>
+        </div>
+      </div>
+    </div>
+    <!-- 滚动区 -->
+    <div id="filter">
+      <div id="ground">
+        <div id="ground0">
+          <!-- 弹性布局主体 -->
+          <div id="ground1">
+            <!-- 菜单空间 -->
+            <div id="menuhide"></div>
+            <!-- 内容区 -->
+            <div id="bodyground">
+              <div id="start" class="neirong shadow">
+                <img
+                  src="image/paimeng1.png"
+                  width="128"
+                  height="128"
+                  id="paimeng1"
+                />
+                <p style="text-align: center; font-size: 18">
+                  什么也没有呢，点我打开菜单栏吧
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="./js/function.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
+  </body>
+</html>

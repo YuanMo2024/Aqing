@@ -10,7 +10,7 @@
   }
   #aqingball:hover {
     opacity: 80%;
-    box-shadow: 0px 0px 20px 10px rgba(83, 160, 253, 1);
+    box-shadow: 0px 0px 12px 6px #29b6f6;
   }
   /* #aqingball:hover + #aqingground {
     display: block;
@@ -20,8 +20,13 @@
   scale: 0.9;
 }
 #aqingball:active {
+  scale: 0.9;
   opacity: 80%;
-  box-shadow: 0px 0px 20px 10px rgba(83, 160, 253, 1);
+  animation: aqing-active-shadow 600ms 1;
+  box-shadow: 0px 0px 20px 10px #29b6f6;
+}
+#aqingball:active + #aqingground {
+  display: block;
 }
 
 /* 自适应布局 */
@@ -61,6 +66,14 @@
   }
   #titlebox0 {
     max-width: 80%;
+  }
+  #menuhide {
+    display: none;
+  }
+}
+@media screen and (min-width: 601px) {
+  #menuground {
+    display: block;
   }
 }
 @media screen and (max-width: 600px) {

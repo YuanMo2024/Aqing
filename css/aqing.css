@@ -9,17 +9,48 @@
   opacity: 50%;
   /* border: 1px solid red; */
 }
-#aqingball:active {
-  scale: 0.9;
-}
 
-/* @keyframes */
 #aqingground {
   display: none;
   position: absolute;
   z-index: 109;
   border-radius: 50%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
+}
+#aqinglongdown-cirque1 {
+  z-index: 1;
+  position: absolute;
+  width: 30.5%;
+  height: 30.5%;
+  border-radius: 50%;
+  background-color: #29b6f6;
+  opacity: 0;
+  left: 34.75%;
+  top: 34.75%;
+  /* transform: translate(-50%, -50%); */
+  box-shadow: 0px 0px 20px 10px #29b6f6;
+  mask: radial-gradient(
+    transparent 41%,
+    #000 48.5%,
+    #000 51.5%,
+    transparent 59%
+  );
+  animation: aqingtolong1 600ms 1;
+  /* scale: 1.7; */
+}
+#aqinglongdown-cirque2 {
+  z-index: 2;
+  position: absolute;
+  width: 36%;
+  height: 36%;
+  border-radius: 50%;
+  /* background-color: #29b6f6; */
+  opacity: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #29b6f6;
+  animation: aqingtolong2 600ms 1;
 }
 #aqinghalo {
   z-index: 0;
@@ -107,6 +138,7 @@
 /* 菜单栏  */
 #menuground {
   z-index: 80;
+  display: none;
   position: fixed;
   width: 280px;
   /* background-color: #b3e5fc; */
@@ -118,7 +150,7 @@
   margin-top: 2vh;
   padding-top: 2vh;
   border-radius: 8px;
-  background-color: rgba(129, 212, 250, 0.6);
+  background-color: rgba(129, 212, 250, 0.7);
   /* border: 1px solid red; */
 }
 .daohang {
@@ -199,6 +231,6 @@
   margin-top: 2vh;
   min-height: 60vh;
   border-radius: 8px;
-  background-color: rgba(129, 212, 250, 0.6);
+  background-color: rgba(129, 212, 250, 0.7);
   /* border: 1px solid red; */
 }

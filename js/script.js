@@ -96,8 +96,8 @@ tlButton.onclick = (event) => {
 
 // 右上角tr按钮
 trButton.onclick = (event) => {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   if (menuIsOn()) {
     menuHide();
   } else {
@@ -105,7 +105,7 @@ trButton.onclick = (event) => {
   }
   window.console.log("trButton is onclick");
   // window.console.log(Date.now());
-  return false;
+  // return false;
 };
 
 // 阿晴悬浮球
@@ -114,12 +114,12 @@ trButton.onclick = (event) => {
 // 设置
 function F0() {
   window.console.log(Date.now());
-  return false;
+  // return false;
 }
 // 米游社wiki
 function F1() {
   gotoWiki();
-  return false;
+  // return false;
 }
 
 // 初始界面
@@ -129,5 +129,5 @@ start.onclick = (event) => {
   menuShow();
   // start.style.display = "none";
   start.onclick = null;
-  return false;
+  // return false;
 };

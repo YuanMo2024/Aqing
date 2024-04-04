@@ -1,12 +1,12 @@
 // 函数方法定义
 function mouseDown(event) {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   return false;
 }
 function mouseMove(event) {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   mousepos.x =
     (event.touches && event.touches[0] && event.touches[0].clientX) ||
     event.clientX;
@@ -19,7 +19,7 @@ function mouseMove(event) {
     aqingDrag();
   }
   // window.console.log(mousepos.x + "," + mousepos.y);
-  return false;
+  // return false;
 }
 
 // 菜单状态
@@ -79,8 +79,8 @@ function aqingHide() {
 
 function aqingDown(event) {
   window.console.log("windowinnerHeight = " + window.innerHeight);
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   aqingdownCount++;
   aqingActive();
   updateAqingpos(); // 更新阿晴悬浮球相关坐标参数
@@ -96,7 +96,7 @@ function aqingDown(event) {
     setAqingClick = null;
     setAqingLongdown = null;
   }, longdownDelay);
-  return false;
+  // return false;
 }
 function aqingUp() {
   aqingIsDrag = false;

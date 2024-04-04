@@ -4,10 +4,6 @@
     scale: 1.1;
     cursor: pointer;
   }
-  .Button:active {
-    scale: 0.9;
-    cursor: pointer;
-  }
 
   .daohang:hover {
     background-color: rgba(225, 245, 254, 0.6);
@@ -19,6 +15,13 @@
   /* #aqingball:hover + #aqingground {
     display: block;
   } */
+}
+.Button:active {
+  scale: 0.9;
+}
+#aqingball:active {
+  opacity: 80%;
+  box-shadow: 0px 0px 20px 10px rgba(83, 160, 253, 1);
 }
 
 /* 自适应布局 */

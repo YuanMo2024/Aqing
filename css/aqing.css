@@ -9,6 +9,9 @@
   opacity: 50%;
   /* border: 1px solid red; */
 }
+#aqingball:active {
+  scale: 0.9;
+}
 
 /* @keyframes */
 #aqingground {
@@ -151,13 +154,13 @@
   overflow-y: auto;
   /* background-color: rgba(129, 212, 250, 0.18);
   backdrop-filter: blur(3px); */
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 #ground0 {
   position: relative;
   height: 80vh;
   /* background-color: #b3e5fc; */
-  border: 1px solid rebeccapurple;
+  /* border: 1px solid rebeccapurple; */
 }
 #ground1 {
   display: flex;

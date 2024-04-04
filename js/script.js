@@ -17,6 +17,7 @@ const aqingground = document.getElementById("aqingground");
 let menufloating = window.matchMedia("screen and (max-width: 1079px)");
 let setAqingClick = null; //双击阿晴悬浮球
 let setAqingLongdown = null; //长按阿晴悬浮球
+let setAbsorption = null;
 
 // 状态变量
 let aqingIsDrag = false; //阿晴悬浮球拖动
@@ -28,25 +29,26 @@ let aqingdownCount = 0; //阿晴悬浮球按下次数
 let clickDelay = 300; //单击延时
 let dbclickDelay = 300; //双击延时
 let longdownDelay = 600; //长按延时
+let aqingAbsorptionDelay = 3000; //悬浮球吸附延时
 const mousepos = {
   x: 0,
   y: 0,
 }; //鼠标位置
 const aqingMouseOffset = {
-  top: 0,
-  left: 0,
+  top: aqingball.offsetHeight / 2,
+  left: aqingball.offsetWidth / 2,
 }; //鼠标与悬浮球的偏移
 const aqingInterval = {
   top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
+  bottom: window.innerHeight,
+  left: ground0.offsetLeft,
+  right: ground0.offsetLeft + ground0.offsetWidth,
 }; //悬浮球移动区间
 const aqingMouseInterval = {
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
+  top: aqingInterval.top + aqingMouseOffset.top,
+  bottom: aqingMouseOffset.top - aqingball.offsetHeight,
+  left: aqingInterval.left + aqingMouseOffset.left,
+  right: aqingInterval.right + aqingMouseOffset.left - aqingball.offsetWidth,
 }; //鼠标的移动区间
 
 //初始化
@@ -91,7 +93,8 @@ tlButton.onclick = (event) => {
   window.addEventListener("mouseup", aqingUp);
   window.addEventListener("touchend", aqingUp);
 
-  aqingball.addEventListener("mouseout", aqingActive); //鼠标离开
+  aqingball.addEventListener("mouseout", aqingMouseOut); //鼠标离开
+  aqingball.addEventListener("mouseover", aqingMouseIn); //鼠标进入
 };
 
 // 右上角tr按钮

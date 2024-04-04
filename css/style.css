@@ -6,6 +6,8 @@
 html {
   width: 100vw;
   height: 100%;
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   overflow: auto;
   background-color: rgba(41, 182, 246, 0.8);
@@ -21,11 +23,11 @@ body {
   position: relative;
   width: 100vw;
   min-height: 100%;
-  user-select: none;
   /* border: 1px solid red; */
 }
 img {
   -webkit-user-drag: none;
+  -ms-user-drag: none;
   pointer-events: none;
 }
 .shadow {

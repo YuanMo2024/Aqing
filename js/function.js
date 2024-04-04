@@ -82,7 +82,6 @@ function aqingDown(event) {
   // let e = event || window.event;
   // e.preventDefault(); // 取消浏览器默认操作
   aqingdownCount++;
-  aqingActive();
   updateAqingpos(); // 更新阿晴悬浮球相关坐标参数
   // 长按计时器
   setAqingLongdown = setTimeout(() => {
@@ -100,8 +99,17 @@ function aqingDown(event) {
 }
 function aqingUp() {
   aqingIsDrag = false;
-  aqingActive(true);
-  aqingAbsorption(); // 阿晴悬浮球吸附
+  // 阿晴悬浮球吸附
+  if (null === setAbsorption) {
+    setAbsorption = setInterval(() => {
+      if (aqingOut()) {
+        aqingAbsorption();
+        clearInterval(setAbsorption);
+        setAbsorption = null;
+        window.console.log("1");
+      }
+    }, aqingAbsorptionDelay);
+  }
   clearTimeout(setAqingLongdown);
   setAqingLongdown = null;
   if (1 == aqingdownCount && !aqingOut()) {
@@ -152,13 +160,27 @@ function aqingLongdown() {
 
   window.console.log("aqinglongdown");
 }
-function aqingActive(end = false) {
-  if (end === false) {
-    aqingball.style.scale = 0.9;
-  } else {
-    aqingball.style.scale = 1;
+function aqingMouseIn() {
+  if (
+    mousepos.x >= aqingInterval.left &&
+    mousepos.x <= aqingInterval.right &&
+    mousepos.y >= aqingInterval.top &&
+    mousepos.y <= aqingInterval.bottom
+  ) {
+    aqingAbsorption(false);
+  }
+  if (null === setAbsorption) {
+    setAbsorption = setInterval(() => {
+      if (aqingOut()) {
+        aqingAbsorption();
+        clearInterval(setAbsorption);
+        setAbsorption = null;
+        window.console.log("1");
+      }
+    }, aqingAbsorptionDelay);
   }
 }
+function aqingMouseOut() {}
 function aqingDrag() {
   let aqingRadius = aqingball.offsetWidth / 2;
   if (
@@ -281,18 +303,18 @@ function aqingAbsorption(Ishide = true) {
       aqingball.style.left = aqingInterval.right - aqingRadius + "px";
     }
   } else {
-    if ((aqingball.offsetTop = aqingInterval.top - aqingRadius)) {
+    if (aqingball.offsetTop == aqingInterval.top - aqingRadius) {
       // 上露出
       aqingball.style.top = aqingInterval.top + "px";
-    } else if ((aqingball.offsetTop = aqingInterval.bottom - aqingRadius)) {
+    } else if (aqingball.offsetTop == aqingInterval.bottom - aqingRadius) {
       // 下露出
-      aqingball.style.top = aqingInterval.bottom + "px";
-    } else if ((aqingball.style.left = aqingInterval.left - aqingRadius)) {
+      aqingball.style.top = aqingInterval.bottom - 2 * aqingRadius + "px";
+    } else if (aqingball.offsetLeft == aqingInterval.left - aqingRadius) {
       // 左露出
-      aqingball.offsetLeft = aqingInterval.left + "px";
-    } else if ((aqingball.style.left = aqingInterval.right - aqingRadius)) {
+      aqingball.style.left = aqingInterval.left + "px";
+    } else if (aqingball.offsetLeft == aqingInterval.right - aqingRadius) {
       // 右露出
-      aqingball.offsetLeft = aqingInterval.right + "px";
+      aqingball.style.left = aqingInterval.right - 2 * aqingRadius + "px";
     }
   }
   // 同步移动阿晴菜单

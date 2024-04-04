@@ -1,16 +1,25 @@
 // 函数方法定义
-
+function mouseDown(event) {
+  let e = event || window.event;
+  e.preventDefault(); // 取消浏览器默认操作
+  return false;
+}
 function mouseMove(event) {
+  let e = event || window.event;
+  e.preventDefault(); // 取消浏览器默认操作
   mousepos.x =
     (event.touches && event.touches[0] && event.touches[0].clientX) ||
     event.clientX;
   mousepos.y =
     (event.touches && event.touches[0] && event.touches[0].clientY) ||
     event.clientY;
+  // mousepos.x = event.touches[0].clientX || event.clientX;
+  // mousepos.y = event.touches[0].clientY || event.clientY;
   if (aqingIsDrag) {
     aqingDrag();
   }
   // window.console.log(mousepos.x + "," + mousepos.y);
+  return false;
 }
 
 // 菜单状态
@@ -52,6 +61,13 @@ function aqingShow() {
 
   tlButton.style.display = "none";
   aqingball.style.display = "block";
+
+  // 同步移动阿晴菜单
+  aqingground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+
   return window.console.log("aqingShow()");
 }
 // 隐藏悬浮球
@@ -62,9 +78,11 @@ function aqingHide() {
 }
 
 function aqingDown(event) {
+  window.console.log("windowinnerHeight = " + window.innerHeight);
   let e = event || window.event;
   e.preventDefault(); // 取消浏览器默认操作
   aqingdownCount++;
+  aqingActive();
   updateAqingpos(); // 更新阿晴悬浮球相关坐标参数
   // 长按计时器
   setAqingLongdown = setTimeout(() => {
@@ -78,9 +96,11 @@ function aqingDown(event) {
     setAqingClick = null;
     setAqingLongdown = null;
   }, longdownDelay);
+  return false;
 }
 function aqingUp() {
   aqingIsDrag = false;
+  aqingActive(true);
   aqingAbsorption(); // 阿晴悬浮球吸附
   clearTimeout(setAqingLongdown);
   setAqingLongdown = null;
@@ -121,7 +141,23 @@ function aqingDbClick() {
 }
 function aqingLongdown() {
   aqingIsDrag = true;
+  aqingball.style.left = mousepos.x - aqingMouseOffset.left + "px";
+  aqingball.style.top = mousepos.y - aqingMouseOffset.top + "px";
+
+  // 同步移动阿晴菜单
+  aqingground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+
   window.console.log("aqinglongdown");
+}
+function aqingActive(end = false) {
+  if (end === false) {
+    aqingball.style.scale = 0.9;
+  } else {
+    aqingball.style.scale = 1;
+  }
 }
 function aqingDrag() {
   let aqingRadius = aqingball.offsetWidth / 2;
@@ -173,7 +209,7 @@ function aqingDrag() {
   } else if (
     // 鼠标在右下角
     mousepos.x > aqingMouseInterval.right + aqingRadius &&
-    mousepos.y > aqingMouseInterval.bottom + aqingRadius
+    mousepos.y > aqingMouseInterval.bottom - aqingRadius
   ) {
     aqingball.style.left =
       aqingMouseInterval.right - aqingMouseOffset.left + aqingRadius + "px";
@@ -183,7 +219,7 @@ function aqingDrag() {
     // 鼠标在下方
     mousepos.x > aqingMouseInterval.left - aqingRadius &&
     mousepos.x < aqingMouseInterval.right + aqingRadius &&
-    mousepos.y > aqingMouseInterval.bottom + aqingRadius
+    mousepos.y > aqingMouseInterval.bottom - aqingRadius
   ) {
     aqingball.style.left = mousepos.x - aqingMouseOffset.left + "px";
     aqingball.style.top =
@@ -191,7 +227,7 @@ function aqingDrag() {
   } else if (
     // 鼠标在左下角
     mousepos.x < aqingMouseInterval.left - aqingRadius &&
-    mousepos.y > aqingMouseInterval.bottom + aqingRadius
+    mousepos.y > aqingMouseInterval.bottom - aqingRadius
   ) {
     aqingball.style.left =
       aqingMouseInterval.left - aqingMouseOffset.left - aqingRadius + "px";
@@ -207,9 +243,14 @@ function aqingDrag() {
       aqingMouseInterval.left - aqingMouseOffset.left - aqingRadius + "px";
     aqingball.style.top = mousepos.y - aqingMouseOffset.top + "px";
   }
+  // 同步移动阿晴菜单
+  aqingground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
 }
 function aqingAbsorption(Ishide = true) {
-  window.console.log(Ishide);
+  // window.console.log(Ishide);
   let aqingRadius = aqingball.offsetWidth / 2;
   if (Ishide) {
     if (
@@ -254,16 +295,23 @@ function aqingAbsorption(Ishide = true) {
       aqingball.offsetLeft = aqingInterval.right + "px";
     }
   }
+  // 同步移动阿晴菜单
+  aqingground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
 }
 function updateAqingpos() {
   // 更新鼠标与悬浮球的偏移
-  aqingMouseOffset.top = mousepos.y - aqingball.offsetTop;
-  aqingMouseOffset.left = mousepos.x - aqingball.offsetLeft;
+  // aqingMouseOffset.top = mousepos.y - aqingball.offsetTop;
+  // aqingMouseOffset.left = mousepos.x - aqingball.offsetLeft;
+  aqingMouseOffset.top = aqingball.offsetHeight / 2;
+  aqingMouseOffset.left = aqingball.offsetWidth / 2;
   window.console.log("aqingMouseOffset = ");
   window.console.log(aqingMouseOffset);
   // 更新悬浮球移动区间
-  aqingInterval.top = ground.offsetTop;
-  aqingInterval.bottom = ground.offsetTop + ground.offsetHeight;
+  aqingInterval.top = 0;
+  aqingInterval.bottom = window.innerHeight;
   aqingInterval.left = ground0.offsetLeft;
   aqingInterval.right = ground0.offsetLeft + ground0.offsetWidth;
   window.console.log("aqingInterval = ");

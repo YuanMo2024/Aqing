@@ -12,6 +12,13 @@
   .daohang:hover {
     background-color: rgba(225, 245, 254, 0.6);
   }
+  #aqingball:hover {
+    opacity: 80%;
+    box-shadow: 0px 0px 20px 10px rgba(83, 160, 253, 1);
+  }
+  /* #aqingball:hover + #aqingground {
+    display: block;
+  } */
 }
 
 /* 自适应布局 */
@@ -72,6 +79,10 @@
     width: 5vh;
     height: 5vh;
   }
+  #aqingground {
+    width: 20vh;
+    height: 20vh;
+  }
   #tm {
     font-size: 28px;
     line-height: 6vh;
@@ -99,6 +110,10 @@
     width: 6.4vh;
     height: 6.4vh;
   }
+  #aqingground {
+    width: 25.6vh;
+    height: 25.6vh;
+  }
   #tm {
     font-size: 28px;
     line-height: 7.8vh;
@@ -125,6 +140,10 @@
   #trButton {
     width: 8vh;
     height: 8vh;
+  }
+  #aqingground {
+    width: 32vh;
+    height: 32vh;
   }
   #tm {
     font-size: 28px;

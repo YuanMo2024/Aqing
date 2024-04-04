@@ -9,7 +9,9 @@ const start = document.getElementById("start");
 // 标题栏
 const tlButton = document.getElementById("tlButton");
 const trButton = document.getElementById("trButton");
+// 阿晴悬浮球
 const aqingball = document.getElementById("aqingball");
+const aqingground = document.getElementById("aqingground");
 
 // 函数方法名变量
 let menufloating = window.matchMedia("screen and (max-width: 1079px)");
@@ -51,6 +53,9 @@ const aqingMouseInterval = {
 if (window.innerWidth <= 600) {
   menuHide();
 }
+window.console.log("windowinnerHeight = " + window.innerHeight);
+window.console.log("groundheight = " + ground.offsetHeight);
+window.console.log("bodyheight = " + document.body.offsetHeight);
 
 //功能实现
 
@@ -65,6 +70,8 @@ menufloating.addEventListener("change", function () {
     menuhide.style.display = "none";
   }
 });
+window.addEventListener("mousedown", mouseDown); //监听鼠标按下，阻止浏览器默认操作
+window.addEventListener("touchstart", mouseDown);
 
 // 按钮事件
 // 左上角tr阿晴图标,启动阿晴悬浮球
@@ -83,6 +90,8 @@ tlButton.onclick = (event) => {
   aqingball.addEventListener("touchend", aqingUp); //触控抬起
   window.addEventListener("mouseup", aqingUp);
   window.addEventListener("touchend", aqingUp);
+
+  aqingball.addEventListener("mouseout", aqingActive); //鼠标离开
 };
 
 // 右上角tr按钮
@@ -96,6 +105,7 @@ trButton.onclick = (event) => {
   }
   window.console.log("trButton is onclick");
   // window.console.log(Date.now());
+  return false;
 };
 
 // 阿晴悬浮球
@@ -104,10 +114,12 @@ trButton.onclick = (event) => {
 // 设置
 function F0() {
   window.console.log(Date.now());
+  return false;
 }
 // 米游社wiki
 function F1() {
   gotoWiki();
+  return false;
 }
 
 // 初始界面
@@ -117,4 +129,5 @@ start.onclick = (event) => {
   menuShow();
   // start.style.display = "none";
   start.onclick = null;
+  return false;
 };

@@ -79,8 +79,9 @@ function aqingHide() {
 
 function aqingDown(event) {
   window.console.log("windowinnerHeight = " + window.innerHeight);
-  // let e = event || window.event;
-  // e.preventDefault(); // 取消浏览器默认操作
+  let e = event || window.event;
+  e.preventDefault(); // 取消浏览器默认操作
+  aqingMouseIn();
   aqingdownCount++;
   updateAqingpos(); // 更新阿晴悬浮球相关坐标参数
   // 长按计时器

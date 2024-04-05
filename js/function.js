@@ -1,8 +1,8 @@
 // 函数方法定义
 function mouseDown(event) {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
-  return false;
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
+  // return false;
 }
 function mouseMove(event) {
   // let e = event || window.event;
@@ -89,6 +89,7 @@ function aqingShow() {
 }
 // 隐藏悬浮球
 function aqingHide() {
+  aqingmenuHide();
   aqingball.style.display = "none";
   tlButton.style.display = "block";
 

@@ -80,8 +80,8 @@ window.addEventListener("touchstart", mouseDown);
 // 按钮事件
 // 左上角tr阿晴图标,启动阿晴悬浮球
 tlButton.onclick = (event) => {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   aqingShow();
 };
 
@@ -147,8 +147,8 @@ function F1() {
 
 // 初始界面
 start.onclick = (event) => {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   menuShow();
   // start.style.display = "none";
   start.onclick = null;

@@ -111,7 +111,7 @@ function aqingClick() {
 }
 // 双击
 function aqingDbClick() {
-  aqingHide();
+  // aqingHide();
   window.console.log("aqingdbclick");
 }
 // 长按

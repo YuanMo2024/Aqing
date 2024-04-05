@@ -10,7 +10,7 @@
   /* border: 1px solid red; */
 }
 #aqingground {
-  /* display: none; */
+  display: none;
   position: absolute;
   z-index: 108;
   border-radius: 50%;

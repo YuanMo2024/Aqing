@@ -1,7 +1,7 @@
 // 函数方法定义
 function mouseDown(event) {
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   // return false;
 }
 function mouseMove(event) {

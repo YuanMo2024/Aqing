@@ -124,8 +124,8 @@ function aqingmenuHide() {
 // 悬浮球单击、双击、长按、拖拽实现
 function aqingDown(event) {
   // window.console.log("windowinnerHeight = " + window.innerHeight);
-  let e = event || window.event;
-  e.preventDefault(); // 取消浏览器默认操作
+  // let e = event || window.event;
+  // e.preventDefault(); // 取消浏览器默认操作
   aqingMouseIn();
   aqingdownCount++;
   updateAqingpos(); // 更新阿晴悬浮球相关坐标参数

@@ -1,7 +1,7 @@
 // 函数方法定义
 function mouseDown(event) {
-  // let e = event || window.event;
-  // e.preventDefault(); // 取消浏览器默认操作
+  let e = event || window.event;
+  e.preventDefault(); // 取消浏览器默认操作
   return false;
 }
 function mouseMove(event) {
@@ -67,6 +67,23 @@ function aqingShow() {
     aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
   aqingground.style.top =
     aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+  aqingmenuground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingmenuground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+
+  window.addEventListener("mousemove", mouseMove);
+  window.addEventListener("touchmove", mouseMove);
+
+  aqingball.addEventListener("mousedown", aqingDown); //鼠标按下
+  aqingball.addEventListener("touchstart", aqingDown); //触控按下
+
+  aqingball.addEventListener("mouseup", aqingUp); //鼠标抬起
+  aqingball.addEventListener("touchend", aqingUp); //触控抬起
+  window.addEventListener("mouseup", aqingUp);
+  window.addEventListener("touchend", aqingUp);
+
+  aqingball.addEventListener("mouseover", aqingMouseIn); //鼠标进入
 
   return window.console.log("aqingShow()");
 }
@@ -74,11 +91,38 @@ function aqingShow() {
 function aqingHide() {
   aqingball.style.display = "none";
   tlButton.style.display = "block";
+
+  window.removeEventListener("mousemove", mouseMove);
+  window.removeEventListener("touchmove", mouseMove);
+
+  aqingball.removeEventListener("mousedown", aqingDown); //鼠标按下
+  aqingball.removeEventListener("touchstart", aqingDown); //触控按下
+
+  aqingball.removeEventListener("mouseup", aqingUp); //鼠标抬起
+  aqingball.removeEventListener("touchend", aqingUp); //触控抬起
+  window.removeEventListener("mouseup", aqingUp);
+  window.removeEventListener("touchend", aqingUp);
+
+  aqingball.removeEventListener("mouseover", aqingMouseIn); //鼠标进入
+
   return window.console.log("aqingHide()");
 }
+// 显示阿晴悬浮球菜单
+function aqingmenuShow() {
+  aqingmenuground.style.display = "block";
+  aqingmenuIsshow = true;
+  return window.console.log("aqingmenuShow()");
+}
+// 隐藏阿晴悬浮球菜单
+function aqingmenuHide() {
+  aqingmenuground.style.display = "none";
+  aqingmenuIsshow = false;
+  return window.console.log("aqingmenuHide()");
+}
 
+// 悬浮球单击、双击、长按、拖拽实现
 function aqingDown(event) {
-  window.console.log("windowinnerHeight = " + window.innerHeight);
+  // window.console.log("windowinnerHeight = " + window.innerHeight);
   let e = event || window.event;
   e.preventDefault(); // 取消浏览器默认操作
   aqingMouseIn();
@@ -100,17 +144,6 @@ function aqingDown(event) {
 }
 function aqingUp() {
   aqingIsDrag = false;
-  // 阿晴悬浮球吸附
-  if (null === setAbsorption) {
-    setAbsorption = setInterval(() => {
-      if (aqingOut()) {
-        aqingAbsorption();
-        clearInterval(setAbsorption);
-        setAbsorption = null;
-        window.console.log("1");
-      }
-    }, aqingAbsorptionDelay);
-  }
   clearTimeout(setAqingLongdown);
   setAqingLongdown = null;
   if (1 == aqingdownCount && !aqingOut()) {
@@ -142,25 +175,6 @@ function aqingOut() {
     return false;
   }
 }
-function aqingClick() {
-  window.console.log("aqingclick");
-}
-function aqingDbClick() {
-  window.console.log("aqingdbclick");
-}
-function aqingLongdown() {
-  aqingIsDrag = true;
-  aqingball.style.left = mousepos.x - aqingMouseOffset.left + "px";
-  aqingball.style.top = mousepos.y - aqingMouseOffset.top + "px";
-
-  // 同步移动阿晴菜单
-  aqingground.style.left =
-    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
-  aqingground.style.top =
-    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
-
-  window.console.log("aqinglongdown");
-}
 function aqingMouseIn() {
   if (
     mousepos.x >= aqingInterval.left &&
@@ -176,12 +190,10 @@ function aqingMouseIn() {
         aqingAbsorption();
         clearInterval(setAbsorption);
         setAbsorption = null;
-        window.console.log("1");
       }
     }, aqingAbsorptionDelay);
   }
 }
-function aqingMouseOut() {}
 function aqingDrag() {
   let aqingRadius = aqingball.offsetWidth / 2;
   if (
@@ -271,6 +283,10 @@ function aqingDrag() {
     aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
   aqingground.style.top =
     aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+  aqingmenuground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingmenuground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
 }
 function aqingAbsorption(Ishide = true) {
   // window.console.log(Ishide);
@@ -304,6 +320,7 @@ function aqingAbsorption(Ishide = true) {
       aqingball.style.left = aqingInterval.right - aqingRadius + "px";
     }
   } else {
+    // window.console.log(aqingball.offsetLeft + "," + aqingball.offsetTop);
     if (aqingball.offsetTop == aqingInterval.top - aqingRadius) {
       // 上露出
       aqingball.style.top = aqingInterval.top + "px";
@@ -323,6 +340,10 @@ function aqingAbsorption(Ishide = true) {
     aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
   aqingground.style.top =
     aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+  aqingmenuground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingmenuground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
 }
 function updateAqingpos() {
   // 更新鼠标与悬浮球的偏移
@@ -332,6 +353,7 @@ function updateAqingpos() {
   aqingMouseOffset.left = aqingball.offsetWidth / 2;
   window.console.log("aqingMouseOffset = ");
   window.console.log(aqingMouseOffset);
+
   // 更新悬浮球移动区间
   aqingInterval.top = 0;
   aqingInterval.bottom = window.innerHeight;
@@ -339,6 +361,7 @@ function updateAqingpos() {
   aqingInterval.right = ground0.offsetLeft + ground0.offsetWidth;
   window.console.log("aqingInterval = ");
   window.console.log(aqingInterval);
+
   // 更新鼠标拖拽悬浮球的移动区间
   aqingMouseInterval.top = aqingInterval.top + aqingMouseOffset.top;
   aqingMouseInterval.bottom =

@@ -28,6 +28,12 @@
 #aqingball:active + #aqingground {
   display: block;
 }
+#aqingball:active + #aqingground #aqinglongdown-cirque1 {
+  display: block;
+}
+#aqingball:active + #aqingground #aqinglongdown-cirque2 {
+  display: block;
+}
 
 /* 自适应布局 */
 @media screen and (min-width: 1400px) {
@@ -95,7 +101,8 @@
     width: 5vh;
     height: 5vh;
   }
-  #aqingground {
+  #aqingground,
+  #aqingmenuground {
     width: 20vh;
     height: 20vh;
   }
@@ -126,7 +133,8 @@
     width: 6.4vh;
     height: 6.4vh;
   }
-  #aqingground {
+  #aqingground,
+  #aqingmenuground {
     width: 25.6vh;
     height: 25.6vh;
   }
@@ -157,7 +165,8 @@
     width: 8vh;
     height: 8vh;
   }
-  #aqingground {
+  #aqingground,
+  #aqingmenuground {
     width: 32vh;
     height: 32vh;
   }

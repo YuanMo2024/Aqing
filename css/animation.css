@@ -42,3 +42,11 @@
     opacity: 0.8;
   }
 }
+@keyframes aqingmenu-togo {
+  from {
+    left: 45%;
+  }
+  to {
+    left: 65%;
+  }
+}

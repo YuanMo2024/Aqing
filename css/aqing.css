@@ -9,16 +9,90 @@
   opacity: 50%;
   /* border: 1px solid red; */
 }
-
 #aqingground {
+  /* display: none; */
+  position: absolute;
+  z-index: 108;
+  border-radius: 50%;
+  transform: rotate(-45deg);
+  /* border: 1px solid red; */
+}
+/* 单位圆 */
+#unitcirque {
+  /* display: none; */
+  position: absolute;
+  z-index: 1;
+  width: 25%;
+  height: 25%;
+  left: 37.5%;
+  top: 37.5%;
+  border-radius: 50%;
+  border: 1px solid red;
+}
+/* 阿晴悬浮球菜单 */
+#aqingmenuground {
   display: none;
   position: absolute;
   z-index: 109;
   border-radius: 50%;
+  transform: rotate(-45deg);
   /* border: 1px solid red; */
 }
-#aqinglongdown-cirque1 {
+#aqg-degline1 {
+  z-index: 3;
+  transform: rotate(22.5deg);
+}
+#aqingmenu1 {
   z-index: 1;
+  border-radius: 50%;
+  background-color: #0288d1;
+  mask: radial-gradient(
+    transparent 15%,
+    #000 49.5%,
+    #000 50.5%,
+    transparent 85%
+  );
+  border: 1px solid #0277bd;
+}
+#text-zi {
+  z-index: 0;
+  transform: rotate(22.5deg);
+  display: flex;
+  text-align: center;
+  align-items: center;
+  color: #0288d1;
+  font-size: 2.2vh;
+  /* border: 1px solid #0277bd; */
+}
+#aqg-degline2 {
+  z-index: 4;
+  transform: rotate(67.5deg);
+}
+#aqingmenu2 {
+  z-index: 1;
+  border-radius: 50%;
+  background-color: #0288d1;
+  mask: radial-gradient(
+    transparent 15%,
+    #000 49.5%,
+    #000 50.5%,
+    transparent 85%
+  );
+  border: 1px solid #0277bd;
+}
+#text-you {
+  z-index: 0;
+  transform: rotate(-22.5deg);
+  display: flex;
+  text-align: center;
+  align-items: center;
+  color: #0288d1;
+  font-size: 2.2vh;
+  /* border: 1px solid #0277bd; */
+}
+#aqinglongdown-cirque1 {
+  display: none;
+  z-index: 100;
   position: absolute;
   width: 61%;
   height: 61%;
@@ -37,7 +111,8 @@
   /* scale: 1.7; */
 }
 #aqinglongdown-cirque2 {
-  z-index: 2;
+  display: none;
+  z-index: 101;
   position: absolute;
   width: 72%;
   height: 72%;

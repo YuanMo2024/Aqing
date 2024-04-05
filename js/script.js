@@ -12,6 +12,7 @@ const trButton = document.getElementById("trButton");
 // 阿晴悬浮球
 const aqingball = document.getElementById("aqingball");
 const aqingground = document.getElementById("aqingground");
+const aqingmenuground = document.getElementById("aqingmenuground");
 
 // 函数方法名变量
 let menufloating = window.matchMedia("screen and (max-width: 1079px)");
@@ -21,6 +22,7 @@ let setAbsorption = null;
 
 // 状态变量
 let aqingIsDrag = false; //阿晴悬浮球拖动
+let aqingmenuIsshow = false; //悬浮球菜单打开
 
 // 计数变量
 let aqingdownCount = 0; //阿晴悬浮球按下次数
@@ -81,20 +83,6 @@ tlButton.onclick = (event) => {
   let e = event || window.event;
   e.preventDefault(); // 取消浏览器默认操作
   aqingShow();
-
-  window.addEventListener("mousemove", mouseMove);
-  window.addEventListener("touchmove", mouseMove);
-
-  aqingball.addEventListener("mousedown", aqingDown); //鼠标按下
-  aqingball.addEventListener("touchstart", aqingDown); //触控按下
-
-  aqingball.addEventListener("mouseup", aqingUp); //鼠标抬起
-  aqingball.addEventListener("touchend", aqingUp); //触控抬起
-  window.addEventListener("mouseup", aqingUp);
-  window.addEventListener("touchend", aqingUp);
-
-  aqingball.addEventListener("mouseout", aqingMouseOut); //鼠标离开
-  aqingball.addEventListener("mouseover", aqingMouseIn); //鼠标进入
 };
 
 // 右上角tr按钮
@@ -112,6 +100,38 @@ trButton.onclick = (event) => {
 };
 
 // 阿晴悬浮球
+//单击
+function aqingClick() {
+  if (aqingmenuIsshow) {
+    aqingmenuHide();
+  } else {
+    aqingmenuShow();
+  }
+  window.console.log("aqingclick");
+}
+// 双击
+function aqingDbClick() {
+  aqingHide();
+  window.console.log("aqingdbclick");
+}
+// 长按
+function aqingLongdown() {
+  aqingIsDrag = true;
+  aqingmenuHide();
+  aqingball.style.left = mousepos.x - aqingMouseOffset.left + "px";
+  aqingball.style.top = mousepos.y - aqingMouseOffset.top + "px";
+
+  // 同步移动阿晴菜单
+  aqingground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+  aqingmenuground.style.left =
+    aqingball.offsetLeft - (3 * aqingball.offsetWidth) / 2 + "px";
+  aqingmenuground.style.top =
+    aqingball.offsetTop - (3 * aqingball.offsetHeight) / 2 + "px";
+  window.console.log("aqinglongdown()");
+}
 
 // 菜单栏
 // 设置

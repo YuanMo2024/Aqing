@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,user-scalable=0"
+    />
+    <title>阿晴计算器</title>
+    <link rel="stylesheet" type="text/css" href="./static/main.css" />
+    <link rel="icon" type="image/x-icon" href="./image/keqing.ico" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./static/layout-animation.css"
+    />
+  </head>
+  <body>
+    <!-- 背景层 -->
+    <div id="background-color">
+      <div id="bg-color1"></div>
+      <div id="bg-color2"></div>
+      <div id="bg-color3"></div>
+    </div>
+    <div id="background-image">
+      <div id="mask-horizontal">
+        <div id="mask-Vertical">
+          <img src="./image/background.png" width="100%" height="auto" />
+        </div>
+      </div>
+    </div>
+    <!-- 悬浮区 -->
+    <div id="fixedbox" class="shadow">
+      <div id="topbox">
+        <div id="tl">
+          <div id="ani-ground-tlbutton" class="ani-ground">
+            <div id="ani-Circle1-tlbutton" class="ani-Circle">
+              <div id="ani-Circle1-tlbutton-active" class="ani-Circle"></div>
+            </div>
+          </div>
+          <div id="tlbutton" class="button-scale">
+            <img src="./image/keqing.png" id="tlicon" />
+          </div>
+        </div>
+        <div id="tm">阿晴计算器</div>
+        <div id="tr">
+          <div id="trbutton" class="button-scale">
+            <img src="./image/tr.png" id="tricon" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 主体区 -->
+    <div id="bodybox">
+      <!-- 菜单栏 -->
+      <div id="menuboxGround">
+        <div id="menubox">
+          <div id="menu">
+            <!-- 设置 -->
+            <div id="menu1" class="daohang">
+              <div id="a-m-d-menu1" class="ani-move-daohang"></div>
+              <img src="./image/hutao.png" class="menuicon" />
+              <div class="menutext">- 设置</div>
+            </div>
+            <!-- 米游wiki -->
+            <div id="menu2" class="daohang">
+              <div id="a-m-d-menu2" class="ani-move-daohang"></div>
+              <img src="./image/xiaogong.png" class="menuicon" />
+              <div class="menutext">- 米游wiki</div>
+            </div>
+            <!-- 优化方案 -->
+            <div id="menu3" class="daohang">
+              <div id="a-m-d-menu3" class="ani-move-daohang"></div>
+              <img src="./image/naxida.png" class="menuicon" />
+              <div class="menutext">- 优化方案</div>
+            </div>
+            <!-- DIY方案 -->
+            <div id="menu4" class="daohang">
+              <div id="a-m-d-menu4" class="ani-move-daohang"></div>
+              <img src="./image/linghua.png" class="menuicon" />
+              <div class="menutext">- DIY 方案</div>
+            </div>
+            <!-- 录入信息 -->
+            <div id="menu5" class="daohang">
+              <div id="a-m-d-menu5" class="ani-move-daohang"></div>
+              <img src="./image/wanye.png" class="menuicon" />
+              <div class="menutext">- 信息录入</div>
+            </div>
+            <div style="display: flex; margin-left: 10%; margin-right: 5%">
+              <p style="flex: 1">版本号 :</p>
+              <p style="direction: rtl; flex: 1">1.5.01</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="bodybox0">
+        <!-- 菜单空间 -->
+        <div id="menuground"></div>
+        <!-- 内容空间 -->
+        <div id="bodyground" class="shadow">
+          <!-- 初始界面 -->
+          <div id="start">
+            <img src="./image/paimeng1.png" id="startimg" />
+            <p id="starttext">什么也没有呢，点我打开菜单栏吧</p>
+          </div>
+          <!-- 正文界面 -->
+          <div id="bodyground0"></div>
+        </div>
+      </div>
+    </div>
+    <div id="log">
+      <div id="logL"></div>
+      <div id="logR"></div>
+    </div>
+  </body>
+  <script type="text/javascript" src="./static/function.js"></script>
+  <script type="text/javascript" src="./static/main.js"></script>
+</html>

@@ -1,0 +1,427 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* border: 1px solid red; */
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  color: var(--theme-color-900-100);
+
+  /* border: 1px solid red; */
+}
+
+img {
+  -ms-user-drag: none;
+  pointer-events: none;
+}
+
+:root {
+  /* 主题色 */
+  --theme-color: #03a9f4;
+  --theme-color-50: rgba(225, 245, 254, 1);
+  --theme-color-200-80: rgba(129, 212, 250, 0.8);
+  --theme-color-300-80: rgba(79, 195, 247, 0.8);
+  --theme-color-500-80: rgba(3, 169, 244, 0.8);
+  --theme-color-800-90: rgba(2, 119, 189, 0.9);
+  --theme-color-900-90: rgba(1, 87, 155, 0.9);
+  --theme-color-900-100: rgba(1, 87, 155, 1);
+
+  --theme-color-a100-40: rgba(128, 216, 255, 0.4);
+  --theme-color-a100-80: rgba(128, 216, 255, 0.8);
+  --theme-color-a200-80: rgba(0, 145, 234, 0.8);
+  --theme-color-a400-80: rgba(0, 176, 255, 0.8);
+  --theme-color-a700-80: rgba(0, 145, 234, 0.8);
+
+  /* 高斯模糊半径 */
+  --blur-background-radius: 80px;
+  --blur-bg-image-radius: 1px;
+
+  /* 圆角 */
+  --border-radius-1: 8px;
+}
+
+#log {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  width: 48vmax;
+  max-height: 40vmax;
+  /* height: 36vw; */
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 12px;
+  /* display: grid; */
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+  color: var(--theme-color-50);
+  background-color: var(--theme-color-900-90);
+}
+#logL {
+  border: 1px solid var(--theme-color-50);
+  height: 36vmax;
+  overflow: auto;
+  padding: 8px;
+}
+#logR {
+  border: 1px solid var(--theme-color-50);
+  height: 36vmax;
+  overflow: auto;
+  padding: 8px;
+}
+
+.shadow {
+  -webkit-box-shadow: 1.3px 1.3px 0.7px rgba(0, 0, 0, 0.049),
+    3.1px 3.1px 2px rgba(0, 0, 0, 0.07), 5.6px 5.6px 4.8px rgba(0, 0, 0, 0.091),
+    10px 10px 16px rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 1.3px 1.3px 0.7px rgba(0, 0, 0, 0.049),
+    3.1px 3.1px 2px rgba(0, 0, 0, 0.07), 5.6px 5.6px 4.8px rgba(0, 0, 0, 0.091),
+    10px 10px 16px rgba(0, 0, 0, 0.14);
+  box-shadow: 1.3px 1.3px 0.7px rgba(0, 0, 0, 0.049),
+    3.1px 3.1px 2px rgba(0, 0, 0, 0.07), 5.6px 5.6px 4.8px rgba(0, 0, 0, 0.091),
+    10px 10px 16px rgba(0, 0, 0, 0.14);
+}
+
+/* 背景层 */
+#background-color {
+  z-index: -101;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--theme-color-50);
+  filter: blur(var(--blur-background-radius));
+  /* border: 1px solid red; */
+}
+#bg-color1 {
+  /* display: none; */
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(-6% -6%, 3% 49%, 35% 72%, 68% 53%, 58% 36%);
+  background-color: var(--theme-color-500-80);
+}
+#bg-color2 {
+  /* display: none; */
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(10% -2%, 105% 8%, 98% 53%, 78% 51%);
+  background-color: var(--theme-color-200-80);
+}
+#bg-color3 {
+  /* display: none; */
+  z-index: 3;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(12% 53%, 52% 57%, 86% 43%, 103% 102%, -6% 96%);
+  background-color: var(--theme-color-300-80);
+}
+#background-image {
+  /* display: none; */
+  z-index: -100;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(var(--blur-bg-image-radius));
+  /* border: 1px solid red; */
+}
+#mask-horizontal {
+  /* display: none; */
+  width: 100vmin;
+  position: absolute;
+  left: 50%;
+  top: 10vh;
+  transform: translate(-50%, 0);
+  padding: 6px;
+  -webkit-mask: linear-gradient(
+    to right,
+    transparent 5%,
+    #000 26%,
+    #000 74%,
+    transparent 95%
+  );
+  mask: linear-gradient(
+    to right,
+    transparent 5%,
+    #000 26%,
+    #000 74%,
+    transparent 95%
+  );
+  /* border: 1px solid red; */
+}
+#mask-Vertical {
+  -webkit-mask: linear-gradient(
+    to top,
+    transparent 5%,
+    #000 26%,
+    #000 74%,
+    transparent 95%
+  );
+  mask: linear-gradient(
+    to top,
+    transparent 5%,
+    #000 26%,
+    #000 74%,
+    transparent 95%
+  );
+  /* /* border: 1px solid red; */
+}
+
+/* 悬浮区 */
+/* 底层定位 */
+#fixedbox {
+  /* display: none; */
+  z-index: 100;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--theme-color-800-90);
+  /* border: 1px solid red; */
+}
+
+/* 顶栏 */
+#topbox {
+  height: 100%;
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  /* background-color: aquamarine; */
+  /* border: 1px solid red; */
+}
+#tl {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 8%;
+  /* border: 1px solid red; */
+}
+#tlbutton {
+  height: 90%;
+  max-height: 50px;
+  width: auto;
+  border-radius: 50%;
+  /* border: 1px solid red; */
+}
+#tlicon {
+  height: 100%;
+  width: auto;
+}
+#tm {
+  flex: 5;
+  color: var(--theme-color-50);
+  text-align: center;
+  /* border: 1px solid red; */
+}
+#tr {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 8%;
+  /* border: 1px solid red; */
+}
+#trbutton {
+  height: 90%;
+  max-height: 50px;
+  width: auto;
+  border-radius: 50%;
+  /* border: 1px solid red; */
+}
+#tricon {
+  height: 100%;
+  width: auto;
+}
+
+/* 主体 */
+#bodybox {
+  /* display: none; */
+  position: relative;
+  height: 88%;
+  margin-left: auto;
+  margin-right: auto;
+  /* overflow-x: hidden;
+  overflow-y: visible; */
+  /* border: 1px solid red; */
+}
+#bodybox0 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+}
+
+/* 菜单栏 */
+#menuboxGround {
+  position: absolute;
+  z-index: 11;
+  /* width: 304px; */
+  height: 125%;
+  overflow: hidden;
+  /* border: 1px solid red; */
+}
+#menubox {
+  position: absolute;
+  z-index: 10;
+  left: -280px;
+  width: 280px;
+  height: 80%;
+  display: flex;
+  /* border: 1px solid red; */
+}
+#menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  padding-top: 12px;
+  padding-bottom: 5%;
+  border-radius: var(--border-radius-1);
+  background-color: var(--theme-color-500-80);
+  /* border: 1px solid red; */
+}
+#menuground {
+  /* display: none; */
+  max-width: 0px;
+  flex: 100;
+  flex-shrink: 0;
+  /* margin-right: 12px; */
+  /* background-color: bisque; */
+  /* border: 1px solid red; */
+}
+.daohang {
+  flex: 1;
+  display: flex;
+  max-height: 60px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: var(--theme-color-900-90) dashed 1px;
+  /* background-color: var(--theme-color-a700-80); */
+  /* border: 1px solid red; */
+}
+.ani-move-daohang {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  left: 3%;
+  backdrop-filter: blur(1px);
+  /* filter: blur(1px); */
+  background-color: var(--theme-color-a100-40);
+  clip-path: polygon(0 0, 10% 70%, 5% 100%, 40% 100%, 45% 70%, 35% 0);
+  animation: ani-move-daohang-hover 50ms 1;
+  /* border: 1px solid red; */
+}
+.menuicon {
+  width: auto;
+  height: 90%;
+  border-radius: 50%;
+  max-height: 50px;
+  margin-left: 5%;
+  /* border: 1px solid red; */
+}
+.menutext {
+  margin-left: 5%;
+  font-family: "Microsoft YaHei", "Arial", "黑体", "宋体", sans-serif;
+  /* border: 1px solid red; */
+}
+
+/* 内容区 */
+#bodyground {
+  flex: 1;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--theme-color-500-80);
+  border-radius: var(--border-radius-1);
+}
+#start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 4;
+  /* border: 1px solid red; */
+}
+#startimg {
+  width: 25vw;
+  max-width: 128px;
+  margin-top: 10vh;
+}
+#bodyground0 {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 12px;
+  column-gap: 12px;
+  /* border: 1px solid red; */
+}
+.ani-ground {
+  z-index: -1;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  /* background-color: var(--theme-color-500-80); */
+  transform-origin: top left;
+  border-radius: 50%;
+  /* border: 1px solid red; */
+}
+.ani-Circle {
+  z-index: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 50%;
+  /* scale: 1.25; */
+  transform-origin: top left;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  /* border: 1px solid red; */
+}
+#ani-ground-tlbutton {
+  display: none;
+  /* border: 1px solid red; */
+}
+#ani-Circle1-tlbutton {
+  width: 100%;
+  scale: 1.5;
+  animation: ani-Circle1-Click 150ms 1;
+  /* border: 1px solid red; */
+  /* background-color: var(--theme-color-500-80); */
+}
+#ani-Circle1-tlbutton-active {
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(-100% -50%, -100% 150%, 200% -50%, 200% 150%);
+  /* background-color: antiquewhite; */
+  border: 8px solid var(--theme-color-a100-80);
+  /* opacity: 0; */
+}

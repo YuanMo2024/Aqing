@@ -1,0 +1,246 @@
+/* 自适应布局 */
+@media screen and (max-width: 600px) {
+  #fixedbox,
+  #bodybox {
+    width: 100%;
+  }
+  /* #menubox {
+    left: -320px;
+  } */
+  #mask-horizontal {
+    top: 20vh;
+  }
+  body {
+    background-size: 100% auto;
+  }
+}
+@media screen and (min-width: 601px) and (max-width: 960px) {
+  #fixedbox,
+  #bodybox {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 961px) and (max-width: 1199px) {
+  #fixedbox,
+  #bodybox {
+    width: 960px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  #fixedbox,
+  #bodybox {
+    width: 80%;
+    max-width: 1200px;
+  }
+}
+@media screen and (max-height: 600px) {
+  #fixedbox {
+    height: 10vh;
+  }
+  .menutext {
+    font-size: 2.5vh;
+  }
+  #tm {
+    font-size: 3.5vh;
+    line-height: 10vh;
+  }
+  #starttext {
+    font-size: 2vh;
+    cursor: pointer;
+  }
+}
+@media screen and (min-height: 601px) {
+  #fixedbox {
+    height: 60px;
+  }
+  .menutext {
+    font-size: 18px;
+  }
+  #tm {
+    font-size: 28px;
+    line-height: 60px;
+  }
+  #starttext {
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+/* 动画 */
+/* 缩放型按钮 */
+.button-scale {
+  cursor: pointer;
+  animation: buttonScale 200ms 1;
+}
+.button-scale:hover {
+  scale: 1.1;
+}
+.button-scale:active {
+  scale: 0.9;
+}
+@keyframes buttonScale {
+  40% {
+    scale: 0.9;
+  }
+}
+@keyframes ani-Circle1-Click {
+  0% {
+    scale: 1.5;
+  }
+  40% {
+    scale: 1.1;
+  }
+  80% {
+    scale: 1.3;
+  }
+}
+
+/* 按钮屏幕单击缩放动画 */
+.button-Click-scale {
+  animation: ani-button-Click-scale 150ms 1;
+}
+@keyframes ani-button-Click-scale {
+  40% {
+    scale: 0.9;
+  }
+}
+/* 菜单栏隐藏or显示 */
+.menuboxGround-hide {
+  animation: ani-menuboxGround-hide 200ms 1;
+}
+@keyframes ani-menuboxGround-hide {
+  from {
+    width: 304px;
+  }
+  to {
+    width: 0;
+  }
+}
+.menuboxGround-show {
+  animation: ani-menuboxGround-show 200ms 1;
+}
+@keyframes ani-menuboxGround-show {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 304px;
+  }
+}
+.menubox-hide {
+  animation: ani-menubox-hide 200ms 1;
+}
+@keyframes ani-menubox-hide {
+  from {
+    left: 0;
+  }
+  to {
+    left: -280px;
+  }
+}
+.menubox-show {
+  animation: ani-menubox-show 200ms 1;
+}
+@keyframes ani-menubox-show {
+  from {
+    left: -280px;
+  }
+  to {
+    left: 0;
+  }
+}
+.menuground-hide {
+  animation: ani-menuground-hide 200ms 1;
+}
+@keyframes ani-menuground-hide {
+  from {
+    max-width: 280px;
+    margin-right: 12px;
+  }
+  to {
+    max-width: 0px;
+    margin-right: 0;
+  }
+}
+.menuground-show {
+  animation: ani-menuground-show 200ms 1;
+}
+@keyframes ani-menuground-show {
+  from {
+    max-width: 0px;
+    margin-right: 0;
+  }
+  to {
+    max-width: 280px;
+    margin-right: 12px;
+  }
+}
+
+/* 菜单栏按钮 */
+.daohang:hover {
+  background-color: var(--theme-color-a700-80);
+}
+.daohang:hover .ani-move-daohang {
+  display: block;
+}
+.ani-move-daohang-Click {
+  display: block;
+  animation: ani-move-daohang-active 100ms 1;
+}
+.ani-move-daohang-ClickT {
+  display: block;
+  animation: ani-move-daohang-activeT 400ms 1;
+}
+.ani-bgColor-daohang {
+  background-color: var(--theme-color-a700-80);
+  /* animation: ani-bgColor-daohang-active 200ms 1; */
+}
+@keyframes ani-move-daohang-hover {
+  from {
+    left: 0;
+  }
+  to {
+    left: 3%;
+  }
+}
+@keyframes ani-move-daohang-active {
+  from {
+    left: 3%;
+  }
+  to {
+    left: 50%;
+  }
+}
+@keyframes ani-move-daohang-activeT {
+  0% {
+    left: 0%;
+  }
+  20% {
+    left: 0%;
+  }
+  30% {
+    left: 3%;
+  }
+  100% {
+    left: 50%;
+  }
+}
+@keyframes ani-bgColor-daohang-active {
+  0% {
+    background-color: var(--theme-color-a700-80);
+  }
+  40% {
+    background-color: var(--theme-color-a200-80);
+  }
+}
+.daohang-Click {
+  animation: ani-daohang-Click 200ms 1;
+}
+@keyframes ani-daohang-Click {
+  0% {
+    background-color: var(--theme-color-a700-80);
+  }
+  30% {
+    background-color: var(--theme-color-a200-80);
+  }
+}

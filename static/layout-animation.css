@@ -13,6 +13,34 @@
   body {
     background-size: 100% auto;
   }
+  #log {
+    width: 90vw;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1f 1f;
+    row-gap: 5px;
+    font-size: 12px;
+  }
+  #logL {
+    height: 28vh;
+  }
+  #logR {
+    height: 28vh;
+  }
+}
+@media screen and (min-width: 601px) and (max-width: 1125px) {
+  #log {
+    width: 540px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1f 1f;
+    row-gap: 5px;
+    font-size: 14px;
+  }
+  #logL {
+    height: 30vh;
+  }
+  #logR {
+    height: 30vh;
+  }
 }
 @media screen and (min-width: 601px) and (max-width: 960px) {
   #fixedbox,
@@ -67,6 +95,12 @@
 }
 
 /* 动画 */
+/* log */
+#log-tl:hover,
+#log-tr:hover {
+  background-color: var(--theme-color-a100-40);
+}
+
 /* 缩放型按钮 */
 .button-scale {
   cursor: pointer;

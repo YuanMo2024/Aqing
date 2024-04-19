@@ -62,8 +62,8 @@ img {
 #log {
   z-index: 1000;
   position: absolute;
-  width: 48vmax;
-  max-height: 40vmax;
+  width: 48vw;
+  max-height: 70vh;
   /* height: 36vw; */
   top: 20%;
   left: 50%;
@@ -75,15 +75,35 @@ img {
   color: var(--theme-color-50);
   background-color: var(--theme-color-900-90);
 }
+#log-top {
+  position: absolute;
+  width: 100px;
+  height: 12px;
+  left: 50%;
+  top: -12px;
+  display: flex;
+  transform: translate(-50%, 0);
+  background-color: var(--theme-color-900-90);
+  /* border: 1px solid var(--theme-color-50); */
+}
+#log-tl {
+  width: 40px;
+  height: 20px;
+}
+#log-tr {
+  margin-left: 20px;
+  width: 40px;
+  height: 20px;
+}
 #logL {
   border: 1px solid var(--theme-color-50);
-  height: 36vmax;
+  height: 60vh;
   overflow: auto;
   padding: 8px;
 }
 #logR {
   border: 1px solid var(--theme-color-50);
-  height: 36vmax;
+  height: 60vh;
   overflow: auto;
   padding: 8px;
 }
@@ -116,6 +136,18 @@ img {
 }
 .scaleup {
   scale: 1;
+}
+.bg-color--theme-color-a100-40 {
+  background-color: var(--theme-color-a100-40);
+}
+.svgfill--theme-color-50 {
+  fill: var(--theme-color-50);
+}
+.svgfill--theme-color-a100-40 {
+  fill: var(--theme-color-a100-80);
+}
+.svgstroke--theme-color-50 {
+  stroke: var(--theme-color-50);
 }
 
 /* 背景层 */
@@ -451,7 +483,7 @@ img {
   max-width: 50px;
   max-height: 50px;
   /* border-radius: 50%; */
-  left: 100px;
+  left: 50%;
   top: 100px;
   transform: translate(-50%, -50%);
   /* transform: rotate(0deg); */
@@ -478,7 +510,7 @@ img {
   height: 100%;
   border-radius: 50%;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.5;
   background: url("../image/keqing.png") no-repeat center center;
   background-size: cover;
   /* border: 1px solid red; */

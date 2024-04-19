@@ -8,6 +8,8 @@ let logLCount = 0;
 let logRCount = 0;
 
 // Button元素
+const logTl = new Button("log-tl"); //log左上角拖拽按钮
+const logTr = new Button("log-tr"); //log右上角关闭按钮
 const tlbutton = new Button("tlbutton"); //左上阿晴图标
 const trbutton = new Button("trbutton"); //右上按钮
 const menu1 = new Daohang("menu1", "a-m-d-menu1"); //导航设置
@@ -19,7 +21,7 @@ const aqingBall = new Button("aqing-ball"); //阿晴悬浮按钮
 
 // div元素
 const menu = new Menu("menubox", "menuground");
-aqingBall.ground = document.getElementById("aqing-ball-ground");
+const fixedbox = document.getElementById("fixedbox");
 
 // 初始化
 Init = () => {
@@ -79,6 +81,33 @@ function whenPointerMove(event) {
 }
 
 log(window.innerWidth + "," + window.innerHeight);
+
+// log面板
+// tl按钮，拖拽
+logTl.drag = new DivDrag(document.getElementById("log"));
+logTl.AddButton();
+logTl.TouchDown = () => {
+  logTl.div.classList.add("bg-color--theme-color-a100-40");
+  logTl.drag.DragStart();
+};
+logTl.MouseDownL = () => {
+  logTl.drag.DragStart();
+};
+logTl.TouchUp = () => {
+  logTl.div.classList.remove("bg-color--theme-color-a100-40");
+  logTl.drag.DragEnd();
+};
+logTl.MouseUpL = () => {
+  logTl.drag.DragEnd();
+};
+logTl.MouseUpOutL = () => {
+  logTl.drag.DragEnd();
+};
+// tr按钮，关闭
+logTr.AddButton();
+logTr.Click = () => {
+  DivHide("log", "grid", true);
+};
 
 // 顶栏按钮
 // 左上阿晴图标
@@ -172,17 +201,46 @@ menu5.Click = () => {
 
 // 阿晴悬浮球
 aqingBall.AddButton(false);
+aqingBall.ground = document.getElementById("aqing-ball-ground");
 aqingBall.aniLongdown = document.getElementById("svg-circle-half-body");
-aqingBall.ballGround = document.getElementById("aqing-ball-ground");
-aqingBall.drag = new DivDrag(aqingBall.ballGround);
+aqingBall.drag = new DivDrag(aqingBall.ground);
+aqingBall.setMagnetic = null;
+
+aqingBall.drag.UpdateMoveBoundary(
+  0,
+  window.innerHeight,
+  fixedbox.offsetLeft,
+  fixedbox.offsetLeft + fixedbox.offsetWidth
+);
+
+aqingBall.MagneticHide = function (delay = 3000) {
+  if (null === aqingBall.setMagnetic) {
+    aqingBall.setMagnetic = setTimeout(() => {
+      if (!IsInDiv(pointer.x, pointer.y, aqingBall.div)) {
+        aqingBall.setMagnetic = null;
+        aqingBall.drag.Magnetic();
+        aqingBall.div.style.opacity = 0.2;
+      }
+    }, delay);
+  }
+};
+
 aqingBall.TouchDown = () => {
   aqingBall.div.classList.add("scaledown");
   aqingBall.aniLongdown.classList.remove("displaynone");
+
+  aqingBall.div.style.opacity = 0.5;
+  aqingBall.drag.Magnetic(false);
 };
 aqingBall.TouchUp = () => {
   aqingBall.drag.DragEnd();
   aqingBall.div.classList.remove("scaledown");
   aqingBall.aniLongdown.classList.add("displaynone");
+
+  setTimeout(() => {
+    aqingBall.drag.Magnetic();
+    aqingBall.div.style.opacity = 0.2;
+  }, 3000);
 };
 aqingBall.Click = () => {
   log("aqing Click");
@@ -195,7 +253,7 @@ aqingBall.DbClick = () => {
 };
 aqingBall.LongDown = () => {
   // log("aqing Longdown");
-  aqingBall.drag.DragStart("center");
+  aqingBall.drag.DragStart("center", false);
 };
 aqingBall.MouseUpL = () => {
   // log("aqing ball Lup");
@@ -203,4 +261,11 @@ aqingBall.MouseUpL = () => {
 };
 aqingBall.MouseUpOutL = () => {
   aqingBall.drag.DragEnd();
+};
+aqingBall.MouseIn = () => {
+  aqingBall.div.style.opacity = 0.5;
+  aqingBall.drag.Magnetic(false);
+};
+aqingBall.MouseOut = () => {
+  aqingBall.MagneticHide();
 };

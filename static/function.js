@@ -489,6 +489,8 @@ function Button(divname) {
         },
         { once: true }
       );
+      pointer.x = Number(event.touches[0].clientX.toFixed(1));
+      pointer.y = Number(event.touches[0].clientY.toFixed(1));
       this.InsideTouchDown();
     } else if ("mousedown" === event.type && !this.isTouchstart) {
       if (0 === event.button) {
@@ -838,50 +840,66 @@ function DivDrag(div) {
     x: 0,
     y: 0,
   }; //鼠标坐标变化量
+  this.moveBoundary = {
+    top: 0,
+    bottom: window.innerHeight,
+    left: 0,
+    right: window.innerWidth,
+  }; //拖拽边界
+  this.mouseLimit = {
+    top: this.moveBoundary.top,
+    bottom: this.moveBoundary.bottom,
+    left: this.moveBoundary.left,
+    right: this.moveBoundary.right,
+  }; //鼠标边界
 
   // 初始化原点
-  this.InitMoveOrigin = function () {
+  this.InitOrigin = function (isLimitDiv = true) {
+    // 鼠标原点
     this.moveOrigin.x = pointer.x;
     this.moveOrigin.y = pointer.y;
-  };
-  this.InitDivOrigin = function () {
+
+    dx = pointer.x - this.div.getBoundingClientRect().x;
+    dy = pointer.y - this.div.getBoundingClientRect().y;
+    pw = this.div.getBoundingClientRect().width;
+    ph = this.div.getBoundingClientRect().height;
+
+    // Div原点
     if (this.moveAns != "center") {
       this.divOrigin.x = this.div.offsetLeft;
       this.divOrigin.y = this.div.offsetTop;
     } else {
-      this.divOrigin.x = Number(
-        (
-          this.div.offsetLeft -
-          this.div.getBoundingClientRect().x +
-          pointer.x -
-          this.div.getBoundingClientRect().width / 2
-        ).toFixed(1)
-      );
-      this.divOrigin.y = Number(
-        (
-          this.div.offsetTop -
-          this.div.getBoundingClientRect().y +
-          pointer.y -
-          this.div.getBoundingClientRect().height / 2
-        ).toFixed(1)
-      );
+      this.divOrigin.x = Number((this.div.offsetLeft + dx - pw / 2).toFixed(1));
+      this.divOrigin.y = Number((this.div.offsetTop + dy - ph / 2).toFixed(1));
       log(this.divOrigin.x + "," + this.divOrigin.y);
     }
-  };
-  // 更新鼠标坐标变化量
-  this.UpdateDpos = function () {
-    this.dPos.x = pointer.x - this.moveOrigin.x;
-    this.dPos.y = pointer.y - this.moveOrigin.y;
+
+    //鼠标边界
+    if (isLimitDiv) {
+      this.mouseLimit.top = this.moveBoundary.top + dy;
+      this.mouseLimit.bottom = this.moveBoundary.bottom + dy - ph;
+      this.mouseLimit.left = this.moveBoundary.left + dx;
+      this.mouseLimit.right = this.moveBoundary.right + dx - pw;
+    } else {
+      this.mouseLimit.top = this.moveBoundary.top;
+      this.mouseLimit.bottom = this.moveBoundary.bottom;
+      this.mouseLimit.left = this.moveBoundary.left;
+      this.mouseLimit.right = this.moveBoundary.right;
+    }
   };
 
-  this.Move = function (x, y) {
-    DivMove(x, y, this.div);
+  // 更新拖拽边界
+  this.UpdateMoveBoundary = function (top, bottom, left, right) {
+    this.moveBoundary.top = top;
+    this.moveBoundary.bottom = bottom;
+    this.moveBoundary.left = left;
+    this.moveBoundary.right = right;
   };
-  this.DragStart = function (moveAns = "top-left") {
+
+  this.DragStart = function (moveAns = "top-left", isLimitDiv = true) {
     this.isOnDrag = true;
     this.moveAns = moveAns;
-    this.InitMoveOrigin();
-    this.InitDivOrigin();
+    this.InitOrigin(isLimitDiv);
     this.UpdateDpos();
     this.Move(this.divOrigin.x + this.dPos.x, this.divOrigin.y + this.dPos.y);
     this.DragNext();
@@ -911,6 +929,210 @@ function DivDrag(div) {
       this.Move(this.divOrigin.x + this.dPos.x, this.divOrigin.y + this.dPos.y);
 
       this.DragNext();
+    }
+  };
+  this.Move = function (x, y) {
+    DivMove(x, y, this.div);
+  };
+
+  // 更新鼠标坐标变化量
+  this.UpdateDpos = function () {
+    if (
+      // 鼠标在边界内
+      pointer.x >= this.mouseLimit.left &&
+      pointer.x <= this.mouseLimit.right &&
+      pointer.y >= this.mouseLimit.top &&
+      pointer.y <= this.mouseLimit.bottom
+    ) {
+      this.dPos.x = pointer.x - this.moveOrigin.x;
+      this.dPos.y = pointer.y - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界左上角外
+      pointer.x < this.mouseLimit.left &&
+      pointer.y < this.mouseLimit.top
+    ) {
+      this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
+      this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界右上角外
+      pointer.x > this.mouseLimit.right &&
+      pointer.y < this.mouseLimit.top
+    ) {
+      this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
+      this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界左下角外
+      pointer.x < this.mouseLimit.left &&
+      pointer.y > this.mouseLimit.bottom
+    ) {
+      this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
+      this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界右下角外
+      pointer.x > this.mouseLimit.right &&
+      pointer.y > this.mouseLimit.bottom
+    ) {
+      this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
+      this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界上方外
+      pointer.x >= this.mouseLimit.left &&
+      pointer.x <= this.mouseLimit.right &&
+      pointer.y < this.mouseLimit.top
+    ) {
+      this.dPos.x = pointer.x - this.moveOrigin.x;
+      this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界下方外
+      pointer.x >= this.mouseLimit.left &&
+      pointer.x <= this.mouseLimit.right &&
+      pointer.y > this.mouseLimit.bottom
+    ) {
+      this.dPos.x = pointer.x - this.moveOrigin.x;
+      this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界左方外
+      pointer.x < this.mouseLimit.left &&
+      pointer.y >= this.mouseLimit.top &&
+      pointer.y <= this.mouseLimit.bottom
+    ) {
+      this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
+      this.dPos.y = pointer.y - this.moveOrigin.y;
+    } else if (
+      // 鼠标在边界右方外
+      pointer.x > this.mouseLimit.right &&
+      pointer.y >= this.mouseLimit.top &&
+      pointer.y <= this.mouseLimit.bottom
+    ) {
+      this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
+      this.dPos.y = pointer.y - this.moveOrigin.y;
+    }
+  };
+
+  // 边界吸附
+  this.Magnetic = function (
+    ishide = true,
+    rt = this.div.getBoundingClientRect().height,
+    rb = this.div.getBoundingClientRect().height,
+    rl = this.div.getBoundingClientRect().width,
+    rr = this.div.getBoundingClientRect().width,
+    ofsX = 0,
+    ofsY = 0
+  ) {
+    // div中心坐标
+    cx =
+      this.div.getBoundingClientRect().left +
+      this.div.getBoundingClientRect().width / 2;
+    cy =
+      this.div.getBoundingClientRect().top +
+      this.div.getBoundingClientRect().height / 2;
+    log(cx + "," + cy);
+
+    if (
+      // div在左上角
+      cx < this.moveBoundary.left + rl &&
+      cy < this.moveBoundary.top + rt
+    ) {
+      if (ishide) {
+        this.Move(this.moveBoundary.left - ofsX, this.moveBoundary.top - ofsY);
+      } else {
+        this.Move(
+          this.moveBoundary.left - ofsX + rl / 2,
+          this.moveBoundary.top - ofsY + rt / 2
+        );
+      }
+    } else if (
+      // div在右上角
+      cx > this.moveBoundary.right - rr &&
+      cy < this.moveBoundary.top + rt
+    ) {
+      if (ishide) {
+        this.Move(this.moveBoundary.right + ofsX, this.moveBoundary.top - ofsY);
+      } else {
+        this.Move(
+          this.moveBoundary.right + ofsX - rr / 2,
+          this.moveBoundary.top - ofsY + rt / 2
+        );
+      }
+    } else if (
+      // div在左下角
+      cx < this.moveBoundary.left + rl &&
+      cy > this.moveBoundary.bottom - rb
+    ) {
+      if (ishide) {
+        this.Move(
+          this.moveBoundary.left - ofsX,
+          this.moveBoundary.bottom + ofsY
+        );
+      } else {
+        this.Move(
+          this.moveBoundary.left - ofsX + rl / 2,
+          this.moveBoundary.bottom + ofsY - rb / 2
+        );
+      }
+    } else if (
+      // div在右下角
+      cx > this.moveBoundary.right - rr &&
+      cy > this.moveBoundary.bottom - rb
+    ) {
+      if (ishide) {
+        this.Move(
+          this.moveBoundary.right + ofsX,
+          this.moveBoundary.bottom + ofsY
+        );
+      } else {
+        this.Move(
+          this.moveBoundary.right + ofsX - rr / 2,
+          this.moveBoundary.bottom + ofsY - rb / 2
+        );
+      }
+    } else if (
+      // div在上方
+      cx >= this.moveBoundary.left + rl &&
+      cx <= this.moveBoundary.right - rr &&
+      cy < this.moveBoundary.top + rt
+    ) {
+      if (ishide) {
+        this.Move(this.div.offsetLeft, this.moveBoundary.top - ofsY);
+      } else {
+        this.Move(this.div.offsetLeft, this.moveBoundary.top - ofsY + rt / 2);
+      }
+    } else if (
+      // div在下方
+      cx >= this.moveBoundary.left + rl &&
+      cx <= this.moveBoundary.right - rr &&
+      cy > this.moveBoundary.bottom - rb
+    ) {
+      if (ishide) {
+        this.Move(this.div.offsetLeft, this.moveBoundary.bottom + ofsY);
+      } else {
+        this.Move(
+          this.div.offsetLeft,
+          this.moveBoundary.bottom + ofsY - rb / 2
+        );
+      }
+    } else if (
+      // div在左方
+      cx < this.moveBoundary.left + rl &&
+      cy >= this.moveBoundary.top + rt &&
+      cy <= this.moveBoundary.bottom - rb
+    ) {
+      if (ishide) {
+        this.Move(this.moveBoundary.left - ofsX, this.div.offsetTop);
+      } else {
+        this.Move(this.moveBoundary.left - ofsX + rl / 2, this.div.offsetTop);
+      }
+    } else if (
+      // div在右方
+      cx > this.moveBoundary.right - rr &&
+      cy >= this.moveBoundary.top + rt &&
+      cy <= this.moveBoundary.bottom - rb
+    ) {
+      if (ishide) {
+        this.Move(this.moveBoundary.right + ofsX, this.div.offsetTop);
+      } else {
+        this.Move(this.moveBoundary.right + ofsX - rr / 2, this.div.offsetTop);
+      }
     }
   };
 }

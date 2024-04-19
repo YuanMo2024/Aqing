@@ -29,17 +29,30 @@
         </div>
       </div>
     </div>
+    <!-- 悬浮球 -->
+    <div id="aqing-ball-ground" class="displaynone">
+      <div id="aqing-ball"></div>
+      <div class="ball-4plus"></div>
+      <svg
+        id="svg-circle-half-body"
+        class="displaynone"
+        width="200%"
+        height="200%"
+      >
+        <circle cx="50%" cy="50%" r="45%" />
+      </svg>
+    </div>
     <!-- 悬浮区 -->
     <div id="fixedbox" class="shadow">
       <div id="topbox">
         <div id="tl">
-          <div id="ani-ground-tlbutton" class="ani-ground">
+          <div id="tlbutton" class="button-scale">
+            <img src="./image/keqing.png" id="tlicon" />
+          </div>
+          <div id="ani-ground-tlbutton" class="ani-ground displaynone">
             <div id="ani-Circle1-tlbutton" class="ani-Circle">
               <div id="ani-Circle1-tlbutton-active" class="ani-Circle"></div>
             </div>
-          </div>
-          <div id="tlbutton" class="button-scale">
-            <img src="./image/keqing.png" id="tlicon" />
           </div>
         </div>
         <div id="tm">阿晴计算器</div>
@@ -54,7 +67,7 @@
     <div id="bodybox">
       <!-- 菜单栏 -->
       <div id="menuboxGround">
-        <div id="menubox">
+        <div id="menubox" class="menubox-show-stylebf">
           <div id="menu">
             <!-- 设置 -->
             <div id="menu1" class="daohang">
@@ -88,14 +101,14 @@
             </div>
             <div style="display: flex; margin-left: 10%; margin-right: 5%">
               <p style="flex: 1">版本号 :</p>
-              <p style="direction: rtl; flex: 1">1.5.01</p>
+              <p style="direction: rtl; flex: 1">1.5.02</p>
             </div>
           </div>
         </div>
       </div>
       <div id="bodybox0">
         <!-- 菜单空间 -->
-        <div id="menuground"></div>
+        <div id="menuground" class="menuground-show-stylebf"></div>
         <!-- 内容空间 -->
         <div id="bodyground" class="shadow">
           <!-- 初始界面 -->
@@ -108,7 +121,7 @@
         </div>
       </div>
     </div>
-    <div id="log">
+    <div id="log" class="displaynone">
       <div id="logL"></div>
       <div id="logR"></div>
     </div>

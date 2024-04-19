@@ -3,10 +3,9 @@ function log(value, pn) {} //输出log信息
 function RemoveDivLis(div) {} //移除div所有监听事件
 function DivShowOrHide(divIn, block, isName) {} //显示或隐藏Div
 function DivShow(divIn, block, isName) {} //显示Div
-function DivHide(divIn, isName) {} //隐藏Div
+function DivHide(divIn, block, isName) {} //隐藏Div
 function DivMove(x, y, divIn, isName) {} //移动Div坐标
 function SetScale(divIn, scale, isName) {} //设置scale
-function menuShowOrHide() {} //显示or隐藏菜单
 function IsInDiv(x, y, div) {} //判断坐标是否在圆角矩形Div内
 
 // 全局函数定义
@@ -49,9 +48,11 @@ DivShowOrHide = (divIn, block = "block", isName = false) => {
     div = document.getElementById(divIn);
   }
   if ("none" === window.getComputedStyle(div).getPropertyValue("display")) {
-    div.style.display = block;
+    div.classList.remove("displaynone");
+    div.classList.add("display" + block);
   } else {
-    div.style.display = "none";
+    div.classList.remove("display" + block);
+    div.classList.add("displaynone");
   }
 };
 DivShow = (divIn, block = "block", isName = false) => {
@@ -59,14 +60,16 @@ DivShow = (divIn, block = "block", isName = false) => {
   if (isName) {
     div = document.getElementById(divIn);
   }
-  div.style.display = block;
+  div.classList.remove("displaynone");
+  div.classList.add("display" + block);
 };
-DivHide = (divIn, isName = false) => {
+DivHide = (divIn, block = "block", isName = false) => {
   let div = divIn;
   if (isName) {
     div = document.getElementById(divIn);
   }
-  div.style.display = "none";
+  div.classList.remove("display" + block);
+  div.classList.add("displaynone");
 };
 DivMove = (x, y, divIn, isName = false) => {
   let div = divIn;
@@ -83,9 +86,6 @@ SetScale = (divIn, scale, isName = false) => {
   }
   div.style.scale = scale;
 };
-
-// 显示or隐藏菜单栏
-menuShowOrHide = () => {};
 
 // 判断坐标是否在圆角矩形Div内
 IsInDiv = (x, y, div) => {
@@ -218,13 +218,25 @@ function Menu(box, ground) {
     this.WidthAdapt600.addEventListener("change", () => {
       if (!this.used) {
         if (this.WidthAdapt600.matches) {
-          this.menuboxGround.style.width = 0;
-          this.menubox.style.left = "-280px";
+          this.menuboxGround.classList.remove("menuboxGround-show-styleaf");
+          this.menuboxGround.classList.add("menuboxGround-show-stylebf");
+          this.menuboxGround.classList.add("menuboxGround-show-stylebf-over");
+
+          this.menubox.classList.remove("menubox-show-styleaf");
+          this.menubox.classList.add("menubox-show-stylebf");
+
           this.menu.classList.remove("shadow");
           this.isShow = false;
         } else {
-          this.menuboxGround.style.width = "304px";
-          this.menubox.style.left = "0px";
+          this.menuboxGround.classList.add("menuboxGround-show-styleaf");
+          this.menuboxGround.classList.remove("menuboxGround-show-stylebf");
+          this.menuboxGround.classList.remove(
+            "menuboxGround-show-stylebf-over"
+          );
+
+          this.menubox.classList.add("menubox-show-styleaf");
+          this.menubox.classList.remove("menubox-show-stylebf");
+
           this.menu.classList.add("shadow");
           this.isShow = true;
         }
@@ -232,15 +244,15 @@ function Menu(box, ground) {
     });
     this.WidthAdapt960.addEventListener("change", () => {
       if (this.WidthAdapt960.matches) {
-        this.menuground.style.maxWidth = "0px";
-        this.menuground.style.marginRight = "0px";
+        this.menuground.classList.remove("menuground-show-styleaf");
+        this.menuground.classList.add("menuground-show-stylebf");
       } else {
         if (this.isShow) {
-          this.menuground.style.maxWidth = "280px";
-          this.menuground.style.marginRight = "12px";
+          this.menuground.classList.add("menuground-show-styleaf");
+          this.menuground.classList.remove("menuground-show-stylebf");
         } else {
-          this.menuground.style.maxWidth = "0px";
-          this.menuground.style.marginRight = "0px";
+          this.menuground.classList.remove("menuground-show-styleaf");
+          this.menuground.classList.add("menuground-show-stylebf");
         }
       }
     });
@@ -251,22 +263,27 @@ function Menu(box, ground) {
     this.used = true;
     this.isShow = true;
     if (window.innerWidth > 960) {
+      this.menuground.classList.remove("menuground-show-stylebf");
+      this.menuground.classList.add("menuground-show-styleaf");
       this.menuground.classList.add("menuground-show");
-      setTimeout(() => {
-        this.menuground.style.maxWidth = "280px";
-        this.menuground.style.marginRight = "12px";
-        this.menuground.classList.remove("menuground-show");
-      }, 180);
     }
+    this.menuboxGround.classList.remove("menuboxGround-show-stylebf");
+    this.menuboxGround.classList.add("menuboxGround-show-styleaf");
     this.menuboxGround.classList.add("menuboxGround-show");
-    this.menu.classList.add("shadow");
+    this.menubox.classList.remove("menubox-show-stylebf");
+    this.menubox.classList.add("menubox-show-styleaf");
     this.menubox.classList.add("menubox-show");
+
     setTimeout(() => {
-      this.menuboxGround.style.width = "304px";
-      this.menubox.style.left = "0";
+      this.menuground.classList.remove("menuground-show");
       this.menuboxGround.classList.remove("menuboxGround-show");
+      this.menuboxGround.classList.remove("menuboxGround-show-stylebf-over");
       this.menubox.classList.remove("menubox-show");
-    }, 180);
+      this.menu.classList.add("shadow");
+      window.console.log(this.menubox);
+      window.console.log(this.menuground);
+      window.console.log(this.menuboxGround);
+    }, 220);
   };
 
   // 隐藏菜单
@@ -274,20 +291,24 @@ function Menu(box, ground) {
     this.used = true;
     this.isShow = false;
     if (window.innerWidth > 960) {
+      this.menuground.classList.remove("menuground-show-styleaf");
+      this.menuground.classList.add("menuground-show-stylebf");
       this.menuground.classList.add("menuground-hide");
     }
+    this.menuboxGround.classList.remove("menuboxGround-show-styleaf");
+    this.menuboxGround.classList.add("menuboxGround-show-stylebf");
+    this.menuboxGround.classList.add("menuboxGround-show-stylebf-over");
     this.menuboxGround.classList.add("menuboxGround-hide");
+    this.menubox.classList.remove("menubox-show-styleaf");
+    this.menubox.classList.add("menubox-show-stylebf");
     this.menubox.classList.add("menubox-hide");
+    this.menu.classList.remove("shadow");
+
     setTimeout(() => {
-      this.menuboxGround.style.width = 0;
-      this.menubox.style.left = "-280px";
-      this.menuground.style.maxWidth = "0px";
-      this.menuground.style.marginRight = "0";
       this.menuground.classList.remove("menuground-hide");
       this.menuboxGround.classList.remove("menuboxGround-hide");
       this.menubox.classList.remove("menubox-hide");
-      this.menu.classList.remove("shadow");
-    }, 180);
+    }, 220);
   };
 
   // 显示或隐藏菜单
@@ -331,6 +352,9 @@ function Button(divname) {
   this.MouseUpL = function () {};
   this.MouseUpM = function () {};
   this.MouseUpR = function () {};
+  this.MouseUpOutL = function () {};
+  this.MouseUpOutM = function () {};
+  this.MouseUpOutR = function () {};
   // 单击调用
   this.Click = function () {};
   this.ClickM = function () {};
@@ -493,13 +517,13 @@ function Button(divname) {
     } else if ("mouseup" === event.type && !this.isTouchstart) {
       if (0 === event.button) {
         this.isMousedownL = false;
-        window.console.log("isMousedownL = " + this.isMousedownL);
+        // window.console.log("isMousedownL = " + this.isMousedownL);
       } else if (1 === event.button) {
         this.isMousedownM = false;
-        window.console.log("isMousedownM = " + this.isMousedownM);
+        // window.console.log("isMousedownM = " + this.isMousedownM);
       } else if (2 === event.button) {
         this.isMousedownR = false;
-        window.console.log("isMousedownR = " + this.isMousedownR);
+        // window.console.log("isMousedownR = " + this.isMousedownR);
       }
     }
   };
@@ -513,6 +537,19 @@ function Button(divname) {
   this.InsideButtonMouseOut = function () {
     this.isMouseOut = true;
 
+    if (null != this.setLongL) {
+      clearTimeout(this.setLongL);
+      this.setLongL = null;
+    }
+    if (null != this.setLongM) {
+      clearTimeout(this.setLongM);
+      this.setLongM = null;
+    }
+    if (null != this.setLongR) {
+      clearTimeout(this.setLongR);
+      this.setLongR = null;
+    }
+
     this.MouseOut();
   };
 
@@ -525,21 +562,23 @@ function Button(divname) {
         // window.console.log(event.button);
         if (0 === event.button) {
           if (!this.isMousedownL) {
+            // log(this.name + "mouseUpL");
             this.InsideMouseUpL();
           } else {
-            this.isMousedownL = false;
+            // log(this.name + "mouseUpL");
+            this.InsideMouseUpOutL();
           }
         } else if (1 === event.button) {
           if (!this.isMousedownM) {
             this.InsideMouseUpM();
           } else {
-            this.isMousedownM = false;
+            this.InsideMouseUpOutL();
           }
         } else if (2 === event.button) {
           if (!this.isMousedownR) {
             this.InsideMouseUpR();
           } else {
-            this.isMousedownR = false;
+            this.InsideMouseUpOutL();
           }
         }
         if (
@@ -578,7 +617,9 @@ function Button(divname) {
         this.setLongT = setTimeout(() => {
           this.setLongT = null;
           this.countToustart = 0;
-          this.LongDown();
+          if (IsInDiv(pointer.x, pointer.y, this.div)) {
+            this.LongDown();
+          }
         }, this.delayLongdown);
       }
     }
@@ -726,5 +767,150 @@ function Button(divname) {
     }
 
     this.MouseUpR();
+  };
+  this.InsideMouseUpOutL = function () {
+    this.isMousedownL = false;
+
+    this.MouseUpOutL();
+  };
+  this.InsideMouseUpOutM = function () {
+    this.isMousedownM = false;
+
+    this.MouseUpOutM();
+  };
+  this.InsideMouseUpOutR = function () {
+    this.isMousedownR = false;
+
+    this.MouseUpOutR();
+  };
+}
+
+// 菜单栏导航按钮
+function Daohang(name, aniName) {
+  // 基本参数
+  this.name = name;
+  this.aniName = aniName;
+  this.menuButton = new Button(name);
+  this.ani = document.getElementById(aniName);
+
+  // 调用方法
+  this.Click = function () {};
+
+  // 动画效果及功能实现
+  this.menuButton.AddButton();
+  this.menuButton.MouseDownL = () => {
+    this.Click();
+
+    this.ani.classList.add("ani-move-daohang-Click");
+    this.menuButton.div.classList.add("ani-bgColor-daohang");
+    setTimeout(() => {
+      this.ani.classList.remove("ani-move-daohang-Click");
+      this.menuButton.div.classList.remove("ani-bgColor-daohang");
+    }, 100);
+  };
+  this.menuButton.TouchDown = () => {
+    this.Click();
+
+    this.ani.classList.add("ani-move-daohang-ClickT");
+    this.menuButton.div.classList.add("ani-bgColor-daohang");
+    setTimeout(() => {
+      this.ani.classList.remove("ani-move-daohang-ClickT");
+      this.menuButton.div.classList.remove("ani-bgColor-daohang");
+    }, 400);
+  };
+}
+
+// 拖拽
+function DivDrag(div) {
+  this.div = div;
+  this.isOnDrag = false;
+  this.moveAns = "top-left";
+
+  this.moveOrigin = {
+    x: pointer.x,
+    y: pointer.y,
+  }; //鼠标原点
+  this.divOrigin = {
+    x: this.div.offsetLeft,
+    y: this.offsetTop,
+  }; //div原点
+  this.dPos = {
+    x: 0,
+    y: 0,
+  }; //鼠标坐标变化量
+
+  // 初始化原点
+  this.InitMoveOrigin = function () {
+    this.moveOrigin.x = pointer.x;
+    this.moveOrigin.y = pointer.y;
+  };
+  this.InitDivOrigin = function () {
+    if (this.moveAns != "center") {
+      this.divOrigin.x = this.div.offsetLeft;
+      this.divOrigin.y = this.div.offsetTop;
+    } else {
+      this.divOrigin.x = Number(
+        (
+          this.div.offsetLeft -
+          this.div.getBoundingClientRect().x +
+          pointer.x -
+          this.div.getBoundingClientRect().width / 2
+        ).toFixed(1)
+      );
+      this.divOrigin.y = Number(
+        (
+          this.div.offsetTop -
+          this.div.getBoundingClientRect().y +
+          pointer.y -
+          this.div.getBoundingClientRect().height / 2
+        ).toFixed(1)
+      );
+      log(this.divOrigin.x + "," + this.divOrigin.y);
+    }
+  };
+  // 更新鼠标坐标变化量
+  this.UpdateDpos = function () {
+    this.dPos.x = pointer.x - this.moveOrigin.x;
+    this.dPos.y = pointer.y - this.moveOrigin.y;
+  };
+
+  this.Move = function (x, y) {
+    DivMove(x, y, this.div);
+  };
+  this.DragStart = function (moveAns = "top-left") {
+    this.isOnDrag = true;
+    this.moveAns = moveAns;
+    this.InitMoveOrigin();
+    this.InitDivOrigin();
+    this.UpdateDpos();
+    this.Move(this.divOrigin.x + this.dPos.x, this.divOrigin.y + this.dPos.y);
+    this.DragNext();
+  };
+  this.DragEnd = function () {
+    this.isOnDrag = false;
+  };
+  this.DragNext = function () {
+    window.addEventListener(
+      "mousemove",
+      () => {
+        this.DragNextTodo();
+      },
+      { once: true }
+    );
+    window.addEventListener(
+      "touchmove",
+      () => {
+        this.DragNextTodo();
+      },
+      { once: true }
+    );
+  };
+  this.DragNextTodo = function () {
+    if (this.isOnDrag) {
+      this.UpdateDpos();
+      this.Move(this.divOrigin.x + this.dPos.x, this.divOrigin.y + this.dPos.y);
+
+      this.DragNext();
+    }
   };
 }

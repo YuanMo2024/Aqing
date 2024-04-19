@@ -104,13 +104,14 @@
     scale: 0.9;
   }
 }
+
 /* 菜单栏隐藏or显示 */
 .menuboxGround-hide {
   animation: ani-menuboxGround-hide 200ms 1;
 }
 @keyframes ani-menuboxGround-hide {
   from {
-    width: 304px;
+    width: 280px;
   }
   to {
     width: 0;
@@ -124,8 +125,20 @@
     width: 0px;
   }
   to {
-    width: 304px;
+    width: 280px;
   }
+}
+.menuboxGround-show-stylebf {
+  width: 0px;
+}
+.menuboxGround-show-stylebf-over {
+  overflow: hidden;
+}
+.menuboxGround-show-styleaf {
+  width: 280px;
+}
+.menuboxGround-show-styleaf-over {
+  overflow: visible;
 }
 .menubox-hide {
   animation: ani-menubox-hide 200ms 1;
@@ -149,6 +162,12 @@
     left: 0;
   }
 }
+.menubox-show-stylebf {
+  left: -280px;
+}
+.menubox-show-styleaf {
+  left: 0px;
+}
 .menuground-hide {
   animation: ani-menuground-hide 200ms 1;
 }
@@ -164,6 +183,14 @@
 }
 .menuground-show {
   animation: ani-menuground-show 200ms 1;
+}
+.menuground-show-stylebf {
+  max-width: 0px;
+  margin-right: 0px;
+}
+.menuground-show-styleaf {
+  max-width: 280px;
+  margin-right: 12px;
 }
 @keyframes ani-menuground-show {
   from {
@@ -242,5 +269,37 @@
   }
   30% {
     background-color: var(--theme-color-a200-80);
+  }
+}
+
+/* 阿晴悬浮球 */
+#aqing-ball:hover {
+  scale: 1.1;
+}
+#aqing-ball:active {
+  scale: 0.9;
+}
+/* #aqing-ball:hover + .ball-4plus {
+  display: block;
+} */
+#aqing-ball:active ~ #svg-circle-half-body {
+  display: block;
+}
+@keyframes ani-aqing-ball-longdown {
+  0% {
+    stroke: none;
+    stroke-dasharray: 0 300;
+  }
+  33% {
+    stroke: none;
+    stroke-dasharray: 0 300;
+  }
+  33.3% {
+    stroke: var(--theme-color-a200-40);
+    stroke-dasharray: 0 300;
+  }
+  100% {
+    stroke: var(--theme-color-a200-40);
+    stroke-dasharray: 282 300;
   }
 }

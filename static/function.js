@@ -7,6 +7,7 @@ function DivHide(divIn, block, isName) {} //隐藏Div
 function DivMove(x, y, divIn, isName) {} //移动Div坐标
 function SetScale(divIn, scale, isName) {} //设置scale
 function IsInDiv(x, y, div) {} //判断坐标是否在圆角矩形Div内
+function OnWhere(x, y, top, bottom, left, right, rt, rb, rl, rr) {} //判断坐标在范围内的区域位置，井字分布
 
 // 全局函数定义
 
@@ -198,6 +199,29 @@ IsInDiv = (x, y, div) => {
     return true;
   } else {
     return false;
+  }
+};
+
+// 判断坐标在区域中的位置,井字分布
+OnWhere = (x, y, top, bottom, left, right, rt = 0, rb = 0, rl = 0, rr = 0) => {
+  if (x < left + rl && y < top + rt) {
+    return "top-left"; //左上
+  } else if (x > right - rr && y < top + rt) {
+    return "top-right"; //右上
+  } else if (x < left + rl && y > bottom - rb) {
+    return "bottom-left"; //左下
+  } else if (x > right - rr && y > bottom - rb) {
+    return "bottom-right"; //右下
+  } else if (x >= left + rl && x <= right - rr && y <= top + rt) {
+    return "top"; //上
+  } else if (x >= left + rl && x <= right - rr && y >= bottom - rb) {
+    return "bottom"; //下
+  } else if (x <= left + rl && y >= top + rt && y <= bottom - rb) {
+    return "left"; //左
+  } else if (x >= right - rr && y >= top + rt && y <= bottom - rb) {
+    return "right"; //右
+  } else {
+    return "center"; //中间
   }
 };
 
@@ -937,75 +961,51 @@ function DivDrag(div) {
 
   // 更新鼠标坐标变化量
   this.UpdateDpos = function () {
-    if (
-      // 鼠标在边界内
-      pointer.x >= this.mouseLimit.left &&
-      pointer.x <= this.mouseLimit.right &&
-      pointer.y >= this.mouseLimit.top &&
-      pointer.y <= this.mouseLimit.bottom
-    ) {
-      this.dPos.x = pointer.x - this.moveOrigin.x;
-      this.dPos.y = pointer.y - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界左上角外
-      pointer.x < this.mouseLimit.left &&
-      pointer.y < this.mouseLimit.top
-    ) {
-      this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
-      this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界右上角外
-      pointer.x > this.mouseLimit.right &&
-      pointer.y < this.mouseLimit.top
-    ) {
-      this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
-      this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界左下角外
-      pointer.x < this.mouseLimit.left &&
-      pointer.y > this.mouseLimit.bottom
-    ) {
-      this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
-      this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界右下角外
-      pointer.x > this.mouseLimit.right &&
-      pointer.y > this.mouseLimit.bottom
-    ) {
-      this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
-      this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界上方外
-      pointer.x >= this.mouseLimit.left &&
-      pointer.x <= this.mouseLimit.right &&
-      pointer.y < this.mouseLimit.top
-    ) {
-      this.dPos.x = pointer.x - this.moveOrigin.x;
-      this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界下方外
-      pointer.x >= this.mouseLimit.left &&
-      pointer.x <= this.mouseLimit.right &&
-      pointer.y > this.mouseLimit.bottom
-    ) {
-      this.dPos.x = pointer.x - this.moveOrigin.x;
-      this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界左方外
-      pointer.x < this.mouseLimit.left &&
-      pointer.y >= this.mouseLimit.top &&
-      pointer.y <= this.mouseLimit.bottom
-    ) {
-      this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
-      this.dPos.y = pointer.y - this.moveOrigin.y;
-    } else if (
-      // 鼠标在边界右方外
-      pointer.x > this.mouseLimit.right &&
-      pointer.y >= this.mouseLimit.top &&
-      pointer.y <= this.mouseLimit.bottom
-    ) {
-      this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
-      this.dPos.y = pointer.y - this.moveOrigin.y;
+    pointerOnWhere = OnWhere(
+      pointer.x,
+      pointer.y,
+      this.mouseLimit.top,
+      this.mouseLimit.bottom,
+      this.mouseLimit.left,
+      this.mouseLimit.right
+    );
+    switch (pointerOnWhere) {
+      case "center":
+        this.dPos.x = pointer.x - this.moveOrigin.x;
+        this.dPos.y = pointer.y - this.moveOrigin.y;
+        break;
+      case "top-left":
+        this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
+        this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
+        break;
+      case "top-right":
+        this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
+        this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
+        break;
+      case "bottom-left":
+        this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
+        this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
+        break;
+      case "bottom-right":
+        this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
+        this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
+        break;
+      case "top":
+        this.dPos.x = pointer.x - this.moveOrigin.x;
+        this.dPos.y = this.mouseLimit.top - this.moveOrigin.y;
+        break;
+      case "bottom":
+        this.dPos.x = pointer.x - this.moveOrigin.x;
+        this.dPos.y = this.mouseLimit.bottom - this.moveOrigin.y;
+        break;
+      case "left":
+        this.dPos.x = this.mouseLimit.left - this.moveOrigin.x;
+        this.dPos.y = pointer.y - this.moveOrigin.y;
+        break;
+      case "right":
+        this.dPos.x = this.mouseLimit.right - this.moveOrigin.x;
+        this.dPos.y = pointer.y - this.moveOrigin.y;
+        break;
     }
   };
 
@@ -1026,113 +1026,107 @@ function DivDrag(div) {
     cy =
       this.div.getBoundingClientRect().top +
       this.div.getBoundingClientRect().height / 2;
-    log(cx + "," + cy);
 
-    if (
-      // div在左上角
-      cx < this.moveBoundary.left + rl &&
-      cy < this.moveBoundary.top + rt
-    ) {
-      if (ishide) {
-        this.Move(this.moveBoundary.left - ofsX, this.moveBoundary.top - ofsY);
-      } else {
-        this.Move(
-          this.moveBoundary.left - ofsX + rl / 2,
-          this.moveBoundary.top - ofsY + rt / 2
-        );
-      }
-    } else if (
-      // div在右上角
-      cx > this.moveBoundary.right - rr &&
-      cy < this.moveBoundary.top + rt
-    ) {
-      if (ishide) {
-        this.Move(this.moveBoundary.right + ofsX, this.moveBoundary.top - ofsY);
-      } else {
-        this.Move(
-          this.moveBoundary.right + ofsX - rr / 2,
-          this.moveBoundary.top - ofsY + rt / 2
-        );
-      }
-    } else if (
-      // div在左下角
-      cx < this.moveBoundary.left + rl &&
-      cy > this.moveBoundary.bottom - rb
-    ) {
-      if (ishide) {
-        this.Move(
-          this.moveBoundary.left - ofsX,
-          this.moveBoundary.bottom + ofsY
-        );
-      } else {
-        this.Move(
-          this.moveBoundary.left - ofsX + rl / 2,
-          this.moveBoundary.bottom + ofsY - rb / 2
-        );
-      }
-    } else if (
-      // div在右下角
-      cx > this.moveBoundary.right - rr &&
-      cy > this.moveBoundary.bottom - rb
-    ) {
-      if (ishide) {
-        this.Move(
-          this.moveBoundary.right + ofsX,
-          this.moveBoundary.bottom + ofsY
-        );
-      } else {
-        this.Move(
-          this.moveBoundary.right + ofsX - rr / 2,
-          this.moveBoundary.bottom + ofsY - rb / 2
-        );
-      }
-    } else if (
-      // div在上方
-      cx >= this.moveBoundary.left + rl &&
-      cx <= this.moveBoundary.right - rr &&
-      cy < this.moveBoundary.top + rt
-    ) {
-      if (ishide) {
-        this.Move(this.div.offsetLeft, this.moveBoundary.top - ofsY);
-      } else {
-        this.Move(this.div.offsetLeft, this.moveBoundary.top - ofsY + rt / 2);
-      }
-    } else if (
-      // div在下方
-      cx >= this.moveBoundary.left + rl &&
-      cx <= this.moveBoundary.right - rr &&
-      cy > this.moveBoundary.bottom - rb
-    ) {
-      if (ishide) {
-        this.Move(this.div.offsetLeft, this.moveBoundary.bottom + ofsY);
-      } else {
-        this.Move(
-          this.div.offsetLeft,
-          this.moveBoundary.bottom + ofsY - rb / 2
-        );
-      }
-    } else if (
-      // div在左方
-      cx < this.moveBoundary.left + rl &&
-      cy >= this.moveBoundary.top + rt &&
-      cy <= this.moveBoundary.bottom - rb
-    ) {
-      if (ishide) {
-        this.Move(this.moveBoundary.left - ofsX, this.div.offsetTop);
-      } else {
-        this.Move(this.moveBoundary.left - ofsX + rl / 2, this.div.offsetTop);
-      }
-    } else if (
-      // div在右方
-      cx > this.moveBoundary.right - rr &&
-      cy >= this.moveBoundary.top + rt &&
-      cy <= this.moveBoundary.bottom - rb
-    ) {
-      if (ishide) {
-        this.Move(this.moveBoundary.right + ofsX, this.div.offsetTop);
-      } else {
-        this.Move(this.moveBoundary.right + ofsX - rr / 2, this.div.offsetTop);
-      }
+    divCenterOnWhere = OnWhere(
+      cx,
+      cy,
+      this.moveBoundary.top,
+      this.moveBoundary.bottom,
+      this.moveBoundary.left,
+      this.moveBoundary.right,
+      rt,
+      rb,
+      rl,
+      rr
+    );
+
+    switch (divCenterOnWhere) {
+      case "top-left":
+        if (ishide) {
+          this.Move(
+            this.moveBoundary.left - ofsX,
+            this.moveBoundary.top - ofsY
+          );
+        } else {
+          this.Move(
+            this.moveBoundary.left - ofsX + rl / 2,
+            this.moveBoundary.top - ofsY + rt / 2
+          );
+        }
+        break;
+      case "top-right":
+        if (ishide) {
+          this.Move(
+            this.moveBoundary.right + ofsX,
+            this.moveBoundary.top - ofsY
+          );
+        } else {
+          this.Move(
+            this.moveBoundary.right + ofsX - rr / 2,
+            this.moveBoundary.top - ofsY + rt / 2
+          );
+        }
+        break;
+      case "bottom-left":
+        if (ishide) {
+          this.Move(
+            this.moveBoundary.left - ofsX,
+            this.moveBoundary.bottom + ofsY
+          );
+        } else {
+          this.Move(
+            this.moveBoundary.left - ofsX + rl / 2,
+            this.moveBoundary.bottom + ofsY - rb / 2
+          );
+        }
+        break;
+      case "bottom-right":
+        if (ishide) {
+          this.Move(
+            this.moveBoundary.right + ofsX,
+            this.moveBoundary.bottom + ofsY
+          );
+        } else {
+          this.Move(
+            this.moveBoundary.right + ofsX - rr / 2,
+            this.moveBoundary.bottom + ofsY - rb / 2
+          );
+        }
+        break;
+      case "top":
+        if (ishide) {
+          this.Move(this.div.offsetLeft, this.moveBoundary.top - ofsY);
+        } else {
+          this.Move(this.div.offsetLeft, this.moveBoundary.top - ofsY + rt / 2);
+        }
+        break;
+      case "bottom":
+        if (ishide) {
+          this.Move(this.div.offsetLeft, this.moveBoundary.bottom + ofsY);
+        } else {
+          this.Move(
+            this.div.offsetLeft,
+            this.moveBoundary.bottom + ofsY - rb / 2
+          );
+        }
+        break;
+      case "left":
+        if (ishide) {
+          this.Move(this.moveBoundary.left - ofsX, this.div.offsetTop);
+        } else {
+          this.Move(this.moveBoundary.left - ofsX + rl / 2, this.div.offsetTop);
+        }
+        break;
+      case "right":
+        if (ishide) {
+          this.Move(this.moveBoundary.right + ofsX, this.div.offsetTop);
+        } else {
+          this.Move(
+            this.moveBoundary.right + ofsX - rr / 2,
+            this.div.offsetTop
+          );
+        }
+        break;
     }
   };
 }

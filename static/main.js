@@ -203,33 +203,97 @@ menu5.Click = () => {
 aqingBall.AddButton(false);
 aqingBall.ground = document.getElementById("aqing-ball-ground");
 aqingBall.aniLongdown = document.getElementById("svg-circle-half-body");
+aqingBall.buttonDIY = new Button("aqing-ball-zi");
+aqingBall.buttonYou = new Button("aqing-ball-you");
 aqingBall.drag = new DivDrag(aqingBall.ground);
 aqingBall.setMagnetic = null;
 
-aqingBall.drag.UpdateMoveBoundary(
-  0,
-  window.innerHeight,
-  fixedbox.offsetLeft,
-  fixedbox.offsetLeft + fixedbox.offsetWidth
-);
+aqingBall.MoveTo = function (x, y, div) {
+  div.style.left = x + "%";
+  div.style.top = y + "%";
+};
 
-aqingBall.MagneticHide = function (delay = 3000) {
-  if (null === aqingBall.setMagnetic) {
-    aqingBall.setMagnetic = setTimeout(() => {
-      if (!IsInDiv(pointer.x, pointer.y, aqingBall.div)) {
-        aqingBall.setMagnetic = null;
-        aqingBall.drag.Magnetic();
-        aqingBall.div.style.opacity = 0.2;
-      }
-    }, delay);
+aqingBall.UpdataMenuPos = function () {
+  aqingBall.drag.UpdateMoveBoundary(
+    0,
+    window.innerHeight,
+    fixedbox.offsetLeft,
+    fixedbox.offsetLeft + fixedbox.offsetWidth
+  );
+  cx =
+    this.div.getBoundingClientRect().left +
+    this.div.getBoundingClientRect().width / 2;
+  cy =
+    this.div.getBoundingClientRect().top +
+    this.div.getBoundingClientRect().height / 2;
+  aqingOnWhere = OnWhere(
+    cx,
+    cy,
+    aqingBall.drag.moveBoundary.top,
+    aqingBall.drag.moveBoundary.bottom,
+    aqingBall.drag.moveBoundary.left,
+    aqingBall.drag.moveBoundary.right,
+    2 * aqingBall.div.offsetHeight,
+    2 * aqingBall.div.offsetHeight,
+    2 * aqingBall.div.offsetWidth,
+    2 * aqingBall.div.offsetWidth
+  );
+  log(aqingOnWhere);
+  switch (aqingOnWhere) {
+    case "top-left":
+      aqingBall.MoveTo(150, 50, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(50, 150, aqingBall.buttonYou.div);
+      break;
+    case "top-right":
+      aqingBall.MoveTo(-150, 50, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(-50, 150, aqingBall.buttonYou.div);
+      break;
+    case "bottom-left":
+      aqingBall.MoveTo(50, -150, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(150, -50, aqingBall.buttonYou.div);
+      break;
+    case "bottom-right":
+      aqingBall.MoveTo(-50, -150, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(-150, -50, aqingBall.buttonYou.div);
+      break;
+    case "top":
+      aqingBall.MoveTo(-100, 150, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(100, 150, aqingBall.buttonYou.div);
+      break;
+    case "bottom":
+      aqingBall.MoveTo(-100, -150, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(100, -150, aqingBall.buttonYou.div);
+      break;
+    case "right":
+      aqingBall.MoveTo(-150, -100, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(-150, 100, aqingBall.buttonYou.div);
+      break;
+    default:
+      aqingBall.MoveTo(150, -100, aqingBall.buttonDIY.div);
+      aqingBall.MoveTo(150, 100, aqingBall.buttonYou.div);
   }
+};
+
+aqingBall.MagneticHide = function (isPC = true, delay = 5000) {
+  if (null != aqingBall.setMagnetic) {
+    clearTimeout(aqingBall.setMagnetic);
+  }
+  aqingBall.setMagnetic = setTimeout(() => {
+    if (!isPC || !IsInDiv(pointer.x, pointer.y, aqingBall.div)) {
+      aqingBall.setMagnetic = null;
+      aqingBall.drag.Magnetic();
+      DivHide(aqingBall.buttonDIY.div, "flex");
+      DivHide(aqingBall.buttonYou.div, "flex");
+      aqingBall.div.style.opacity = 0.2;
+    }
+  }, delay);
 };
 
 aqingBall.TouchDown = () => {
   aqingBall.div.classList.add("scaledown");
   aqingBall.aniLongdown.classList.remove("displaynone");
 
-  aqingBall.div.style.opacity = 0.5;
+  aqingBall.div.style.opacity = 0.6;
   aqingBall.drag.Magnetic(false);
 };
 aqingBall.TouchUp = () => {
@@ -237,22 +301,30 @@ aqingBall.TouchUp = () => {
   aqingBall.div.classList.remove("scaledown");
   aqingBall.aniLongdown.classList.add("displaynone");
 
-  setTimeout(() => {
-    aqingBall.drag.Magnetic();
-    aqingBall.div.style.opacity = 0.2;
-  }, 3000);
+  aqingBall.MagneticHide(false);
 };
 aqingBall.Click = () => {
   log("aqing Click");
+  aqingBall.UpdataMenuPos();
+  DivShowOrHide(aqingBall.buttonDIY.div, "flex");
+  DivShowOrHide(aqingBall.buttonYou.div, "flex");
 };
 aqingBall.DbClick = () => {
   log("aqing DbClick");
   setTimeout(() => {
     DivHide(aqingBall.ground);
+    DivHide(aqingBall.buttonDIY.div, "flex");
+    DivHide(aqingBall.buttonYou.div, "flex");
   }, 150);
 };
 aqingBall.LongDown = () => {
   // log("aqing Longdown");
+  aqingBall.drag.UpdateMoveBoundary(
+    0,
+    window.innerHeight,
+    fixedbox.offsetLeft,
+    fixedbox.offsetLeft + fixedbox.offsetWidth
+  );
   aqingBall.drag.DragStart("center", false);
 };
 aqingBall.MouseUpL = () => {
@@ -263,9 +335,23 @@ aqingBall.MouseUpOutL = () => {
   aqingBall.drag.DragEnd();
 };
 aqingBall.MouseIn = () => {
-  aqingBall.div.style.opacity = 0.5;
+  aqingBall.div.style.opacity = 0.6;
   aqingBall.drag.Magnetic(false);
 };
 aqingBall.MouseOut = () => {
   aqingBall.MagneticHide();
+};
+
+// 阿晴菜单 - DIY
+aqingBall.buttonDIY.AddButton();
+aqingBall.buttonDIY.Click = () => {
+  log("阿晴悬浮球菜单 - DIY");
+  aqingBall.MagneticHide(false);
+};
+
+// 阿晴菜单 - 优
+aqingBall.buttonYou.AddButton();
+aqingBall.buttonYou.Click = () => {
+  log("阿晴悬浮球菜单 - 优化");
+  aqingBall.MagneticHide(false);
 };

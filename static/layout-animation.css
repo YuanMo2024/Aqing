@@ -307,10 +307,10 @@
 }
 
 /* 阿晴悬浮球 */
-#aqing-ball:hover {
+.aqing-ball-1plusCircle:hover {
   scale: 1.1;
 }
-#aqing-ball:active {
+.aqing-ball-1plusCircle:active {
   scale: 0.9;
 }
 /* #aqing-ball:hover + .ball-4plus {
@@ -335,5 +335,12 @@
   100% {
     stroke: var(--theme-color-a200-40);
     stroke-dasharray: 282 300;
+  }
+}
+/* 悬浮球菜单显示动画 */
+@keyframes ani-aqing-ball-menubutton-show {
+  0% {
+    left: 0%;
+    top: 0%;
   }
 }
